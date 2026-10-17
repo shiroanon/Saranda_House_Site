@@ -1,3 +1,61 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+/* Palette ported from saranda.iitmbs.org (forest greens + gold on warm paper). */
+@theme {
+	--color-primary: oklch(40.02% 0.06 151.15);
+	--color-primary-lighter: oklch(96.88% 0.06 151.15);
+	--color-primary-darker: oklch(16.17% 0.06 151.15);
+
+	--color-secondary: oklch(90.69% 0.1869 102.87);
+	--color-secondary-ligher: oklch(99.9% 0.1869 102.87);
+	--color-secondary-darker: oklch(80% 0.1869 102.87);
+
+	--color-neutral-light: oklch(98.5% 0 0);
+	--color-neutral-light-lighter: oklch(100% 0 0);
+	--color-neutral-light-darker: oklch(82.05% 0 0);
+
+	--color-neutral-dark: oklch(26.31% 0.026 140.39);
+	--color-neutral-dark-lighter: oklch(51.48% 0.026 140.39);
+	--color-neutral-dark-darker: oklch(11.42% 0.026 140.39);
+	--color-neutral-dark-glass: oklch(26.31% 0.026 140.39 / 0.8);
+
+	--animate-heroslideup: heroslideup 1s cubic-bezier(0.26, 1, 0.61, 1) 1;
+
+	@keyframes heroslideup {
+		from {
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+}
+
+@layer base {
+	body {
+		background-color: #ece6c6;
+		color: var(--color-primary);
+	}
+}
+
+/* Frosted panel used for content blocks (matches the source's .green-glass-container). */
+@utility green-glass-container {
+	background-color: color-mix(in oklab, var(--color-neutral-light) 70%, transparent);
+	backdrop-filter: blur(6px);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 15%, transparent);
+	border-radius: var(--radius-xl);
+	box-shadow: 0 4px 12px color-mix(in oklab, var(--color-primary) 12%, transparent);
+}
+
+@utility album-photo {
+	box-shadow: 0 2px 8px color-mix(in oklab, black 30%, transparent);
+	transition: transform 0.2s ease;
+
+	&:hover {
+		transform: scale(1.03);
+	}
+}
