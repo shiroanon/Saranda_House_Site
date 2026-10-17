@@ -32,5 +32,9 @@
 	"imports": {
 		"#lib": "./src/lib/index.js",
 		"#lib/*": "./src/lib/*"
+	},
+	"dependencies": {
+		"appwrite": "^29.0.0",
+		"node-appwrite": "^30.0.1"
 	}
 }
