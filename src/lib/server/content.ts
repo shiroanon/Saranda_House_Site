@@ -2,7 +2,7 @@ import { Query } from 'node-appwrite';
 import { createPublicClient } from './appwrite.ts';
 import { pastEvents } from '#lib/data/events.ts';
 import { meetups, meetupCities, cityImages } from '#lib/data/meetups.ts';
-import { upperCouncil, lowerCouncil, teams } from '#lib/data/people.ts';
+import { upperCouncil, lowerCouncil, teams, type Person } from '#lib/data/people.ts';
 import { editions } from '#lib/data/newsletter.ts';
 import { usefulLinks } from '#lib/data/links.ts';
 
@@ -51,17 +51,22 @@ export type MeetupEventRow = {
 	images?: string[];
 };
 
-export type PersonRow = {
+/** A row in the Appwrite `people` table: a person, plus where they sit in the house. */
+export type PersonRow = Person & {
 	$id: string;
-	name: string;
-	role: string;
 	group: 'upper' | 'lower' | 'team';
 	team?: string;
-	photo?: string;
 	sort?: number;
 };
 
-export type NewsletterRow = { $id: string; title: string; blurb?: string; sort?: number };
+export type NewsletterRow = {
+	$id: string;
+	title: string;
+	date?: string;
+	blurb?: string;
+	url?: string;
+	sort?: number;
+};
 
 export type LinkRow = {
 	$id: string;
@@ -180,30 +185,26 @@ export async function listMeetupEvents(city?: string): Promise<MeetupEventRow[]>
 const staticPeople = (): PersonRow[] => {
 	let sort = 0;
 	return [
+		// Spreading the person keeps name, role, photo and every link in one shape, so the
+		// fallback cannot drift from what the seed writes to Appwrite.
 		...upperCouncil.map((p) => ({
 			$id: `static-u-${sort}`,
-			name: p.name,
-			role: p.role,
+			...p,
 			group: 'upper' as const,
-			photo: p.photo,
 			sort: sort++
 		})),
 		...lowerCouncil.map((p) => ({
 			$id: `static-l-${sort}`,
-			name: p.name,
-			role: p.role,
+			...p,
 			group: 'lower' as const,
-			photo: p.photo,
 			sort: sort++
 		})),
 		...teams.flatMap((t) =>
 			t.members.map((p) => ({
 				$id: `static-t-${sort}`,
-				name: p.name,
-				role: p.role,
+				...p,
 				group: 'team' as const,
 				team: t.title,
-				photo: p.photo,
 				sort: sort++
 			}))
 		)
@@ -224,7 +225,15 @@ export async function listEditions(): Promise<NewsletterRow[]> {
 	return withFallback(
 		'newsletter',
 		() => listRows<NewsletterRow>(TABLE.newsletter, [Query.orderAsc('sort')]),
-		() => editions.map((e, i) => ({ $id: `static-${i}`, title: e.title, blurb: e.blurb, sort: i }))
+		() =>
+			editions.map((e, i) => ({
+				$id: `static-${i}`,
+				title: e.title,
+				date: e.date,
+				blurb: e.blurb,
+				url: e.url,
+				sort: i
+			}))
 	);
 }
 

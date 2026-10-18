@@ -26,9 +26,9 @@
 
 	/** Only the marks this person actually has, in house order. */
 	const links = $derived(
-		LINK_ORDER.filter((kind) => person.links?.[kind]).map((kind) => ({
+		LINK_ORDER.filter((kind) => person[kind]).map((kind) => ({
 			kind,
-			href: linkHref(kind, person.links![kind]!)
+			href: linkHref(kind, person[kind]!)
 		}))
 	);
 

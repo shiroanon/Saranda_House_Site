@@ -94,30 +94,24 @@ seeds.push({
 	rows: [
 		...upperCouncil.map((person) => ({
 			$id: ID.unique(),
-			name: person.name,
-			role: person.role,
+			...person,
 			group: 'upper',
 			team: null,
-			photo: person.photo ?? null,
 			sort: personSort++
 		})),
 		...lowerCouncil.map((person) => ({
 			$id: ID.unique(),
-			name: person.name,
-			role: person.role,
+			...person,
 			group: 'lower',
 			team: null,
-			photo: person.photo ?? null,
 			sort: personSort++
 		})),
 		...teams.flatMap((team) =>
 			team.members.map((person) => ({
 				$id: ID.unique(),
-				name: person.name,
-				role: person.role,
+				...person,
 				group: 'team',
 				team: team.title,
-				photo: person.photo ?? null,
 				sort: personSort++
 			}))
 		)
@@ -131,7 +125,9 @@ seeds.push({
 	rows: editions.map((edition, index) => ({
 		$id: ID.unique(),
 		title: edition.title,
+		date: edition.date,
 		blurb: edition.blurb,
+		url: edition.url,
 		sort: index
 	}))
 });

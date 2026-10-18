@@ -7,11 +7,22 @@
 
 	let { data }: PageProps = $props();
 
-	/** Every reference, grouped by its category, in the order the categories first appear. */
+	/**
+	 * The rows in Appwrite carry no category, so infer one from the title. Titles are
+	 * descriptive enough that a small keyword match beats showing fourteen links as "Other".
+	 */
+	const categoryOf = (title: string) => {
+		if (/grading/i.test(title)) return 'Grading';
+		if (/handbook/i.test(title)) return 'Handbooks';
+		if (/guideline|reference|interaction/i.test(title)) return 'Guidelines & Reference';
+		return 'Other';
+	};
+
+	/** Every reference, grouped by category, in the order the categories first appear. */
 	const groups = $derived.by(() => {
 		const byCategory = new Map<string, typeof data.links>();
 		for (const link of data.links) {
-			const key = link.category || 'Other';
+			const key = link.category || categoryOf(link.title);
 			if (!byCategory.has(key)) byCategory.set(key, []);
 			byCategory.get(key)!.push(link);
 		}
