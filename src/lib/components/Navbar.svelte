@@ -20,17 +20,9 @@
 
 <header class="site-head" class:lifted>
 	<nav class="shell flex items-center justify-between gap-6 py-3.5">
-		<a href="/" class="group flex items-center gap-3" onclick={() => (mobileOpen = false)}>
-			<img
-				src={assets.logo}
-				alt={`${siteName} crest`}
-				width="42"
-				height="42"
-				class="crest rounded-full"
-			/>
-			<span class="display-face text-[1.35rem] leading-none font-semibold tracking-tight">
-				{siteName}
-			</span>
+		<!-- The crest alone is the wordmark: it already carries the name in its ring. -->
+		<a href="/" class="group flex items-center" onclick={() => (mobileOpen = false)}>
+			<img src={assets.logo} alt={siteName} width="56" height="56" class="crest rounded-full" />
 		</a>
 
 		<!-- Desktop -->

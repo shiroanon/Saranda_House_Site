@@ -19,7 +19,9 @@
 		<textarea name={field.key} rows="5" class={input}>{str(value)}</textarea>
 	{:else if field.type === 'select'}
 		<select name={field.key} class={input} required={field.required}>
-			<option value="">— choose —</option>
+			{#if !(field.options ?? []).some((o) => o.value === '')}
+				<option value="">— choose —</option>
+			{/if}
 			{#each field.options ?? [] as option (option.value)}
 				<option value={option.value} selected={str(value) === option.value}>{option.label}</option>
 			{/each}

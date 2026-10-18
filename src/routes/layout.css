@@ -49,22 +49,22 @@
 	 * free. `primary` is now the light text colour, which is what the markup expects.
 	 */
 	--color-primary: #ece6d0;
-	--color-primary-lighter: #16331f;
-	--color-primary-darker: #071310;
+	--color-primary-lighter: #17191b;
+	--color-primary-darker: #08090a;
 
 	--color-secondary: #e4b033;
 	--color-secondary-ligher: #f2cd6d;
 	--color-secondary-darker: #d9a24a;
 
-	--color-neutral-light: #12271c;
-	--color-neutral-light-lighter: #16331f;
-	--color-neutral-light-darker: #0b1a12;
+	--color-neutral-light: #16191a;
+	--color-neutral-light-lighter: #1c1f21;
+	--color-neutral-light-darker: #0b0d0e;
 
 	/* Unused by the markup today, kept so older panels still resolve. */
 	--color-neutral-dark: #ece6d0;
 	--color-neutral-dark-lighter: #f4efdd;
-	--color-neutral-dark-darker: #9db894;
-	--color-neutral-dark-glass: rgb(12 35 24 / 0.85);
+	--color-neutral-dark-darker: #9ca6a0;
+	--color-neutral-dark-glass: rgb(18 20 21 / 0.85);
 
 	--animate-heroslideup: heroslideup 1s cubic-bezier(0.26, 1, 0.61, 1) 1;
 
@@ -85,18 +85,17 @@
 		scroll-behavior: smooth;
 		min-height: 100%;
 		/*
-		 * The house ground. Black at the masthead, easing down through the very bottom of
-		 * the forest the house sits in — so the page reads as night, not as green. Green
-		 * is then something the bands *do*, rather than the colour everything sits on.
+		 * The house ground. Black at the masthead, easing down to a near-black grey at the
+		 * foot of the page — so the page reads as night, and nothing on it is tinted green.
 		 */
 		background-color: var(--color-abyss);
 		background-image: linear-gradient(
 			to bottom,
 			var(--color-abyss) 0%,
-			#01050a 30%,
-			#020806 56%,
-			#030b07 80%,
-			#061009 100%
+			#020304 28%,
+			#040506 54%,
+			#060708 78%,
+			#090b0c 100%
 		);
 		background-repeat: no-repeat;
 	}
@@ -143,9 +142,10 @@
  *
  * Not a plate with a rule under it — a black gradient that feathers to nothing. A hard
  * bottom edge is the one thing that cannot survive on a page whose ground is already
- * black, so the bar fades out over its own height plus a little more, and the blur that
- * frosts the content passing underneath is masked by the same fade. With no border and
- * no shadow there is no line for the eye to catch: the header just gets darker.
+ * black, so the bar fades out well past its own height, and the blur that frosts the
+ * content passing underneath is masked by the same long fade. With no border and no shadow
+ * there is no line for the eye to catch: the header just gets darker, and the darkness
+ * reaches about twice as far down the page as the bar itself is tall.
  */
 @utility site-head {
 	position: sticky;
@@ -155,29 +155,33 @@
 	&::before {
 		content: '';
 		position: absolute;
-		inset: 0 0 -2.5rem 0;
+		/* The bar is ~5.5rem tall, so this feather covers roughly one further bar-height. */
+		inset: 0 0 -7rem 0;
 		z-index: -1;
 		pointer-events: none;
 		background: linear-gradient(
 			to bottom,
-			rgb(0 0 0 / 0.96) 0%,
-			rgb(0 0 0 / 0.88) 46%,
-			rgb(0 0 0 / 0.58) 70%,
+			rgb(0 0 0 / 0.98) 0%,
+			rgb(0 0 0 / 0.96) 42%,
+			rgb(0 0 0 / 0.74) 62%,
+			rgb(0 0 0 / 0.34) 82%,
 			transparent 100%
 		);
-		backdrop-filter: blur(14px);
+		/* The desaturation matters as much as the ink: over the hero's forest a pure black
+		   wash still reads green, so whatever is behind the bar is drained of colour first. */
+		backdrop-filter: blur(26px) saturate(0.15);
 		-webkit-mask-image: linear-gradient(
 			to bottom,
 			#000 0%,
-			#000 76%,
-			rgb(0 0 0 / 0.55) 90%,
+			#000 42%,
+			rgb(0 0 0 / 0.62) 68%,
 			transparent 100%
 		);
 		mask-image: linear-gradient(
 			to bottom,
 			#000 0%,
-			#000 76%,
-			rgb(0 0 0 / 0.55) 90%,
+			#000 42%,
+			rgb(0 0 0 / 0.62) 68%,
 			transparent 100%
 		);
 	}
@@ -187,9 +191,10 @@
 	&.lifted::before {
 		background: linear-gradient(
 			to bottom,
-			rgb(0 0 0 / 0.99) 0%,
-			rgb(0 0 0 / 0.95) 46%,
-			rgb(0 0 0 / 0.68) 70%,
+			rgb(0 0 0 / 1) 0%,
+			rgb(0 0 0 / 0.99) 42%,
+			rgb(0 0 0 / 0.84) 62%,
+			rgb(0 0 0 / 0.44) 82%,
 			transparent 100%
 		);
 	}
@@ -259,11 +264,9 @@
 	}
 }
 
-/** The crest, held in a thin gold ring. */
+/** The crests carry their own near-black ground, so they need no ring — just a soft seat. */
 @utility crest {
-	box-shadow:
-		0 0 0 1.5px color-mix(in oklab, var(--color-gold) 60%, transparent),
-		0 0 0 4px color-mix(in oklab, var(--color-paper) 92%, transparent);
+	filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.6));
 }
 
 /** Links inside the dark footer: a gold underline wipes in on hover. */
@@ -576,6 +579,18 @@
 }
 
 /**
+ * The content column for a page of people. The shell is 88rem wide, which is right for a
+ * gallery but sprawls a roll of portraits across the screen; this holds the cards to a
+ * modest size and — because the headings live inside it too — keeps every section sharing
+ * one left edge.
+ */
+@utility roll {
+	margin-inline: auto;
+	width: 100%;
+	max-width: 64rem;
+}
+
+/**
  * Asymmetric section grid: a narrow rail on the left carrying the label, the content
  * in the remaining columns. Collapses to a single column on small screens.
  */
@@ -813,7 +828,7 @@
 @utility face-meta {
 	position: absolute;
 	inset: auto 0 0 0;
-	padding: 1rem 1.15rem 1.15rem;
+	padding: 0.85rem 0.95rem 1rem;
 }
 
 /**
@@ -917,97 +932,145 @@
 	z-index: -1;
 	background: linear-gradient(
 		to top,
-		rgb(0 0 0 / 0.95) 0%,
-		rgb(0 0 0 / 0.9) 32%,
-		rgb(0 0 0 / 0.55) 60%,
-		rgb(0 0 0 / 0.12) 82%,
-		transparent 100%
+		rgb(0 0 0 / 0.99) 0%,
+		rgb(0 0 0 / 0.97) 30%,
+		rgb(0 0 0 / 0.9) 52%,
+		rgb(0 0 0 / 0.72) 74%,
+		rgb(0 0 0 / 0.45) 100%
 	);
 }
 
 /**
- * A gallery tile. Squares in a grid, with one feature tile spanning two cells. The index
- * and place name sit in a thin wash at the foot; hovering lifts the tile and the caption.
+ * A regional collage — the house's own motif, drawn from the meetup posters.
+ *
+ * Two rails of photographs, the right one dropped, with a circular sticker landing on the
+ * junction of the four. Nothing here is cropped: a plate carries no height of its own, so
+ * each photograph is drawn at its own aspect ratio and the frame simply wraps it. That is
+ * why the plates are not a uniform size — the unevenness is the point of a collage.
+ *
+ * The container is an inline size container, which is what lets the sticker's type be set
+ * in `cqw` and stay in proportion to the circle at any grid width.
  */
-@utility tile {
+@utility collage {
 	position: relative;
-	display: block;
-	overflow: hidden;
-	border-radius: var(--radius-lg);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
-	background: var(--color-paper);
-	transition:
-		transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-		border-color 0.45s ease;
-
-	& img {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-
-	&:hover {
-		transform: translateY(-4px);
-		border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
-	}
-}
-
-.tile:hover img {
-	transform: scale(1.07);
-}
-
-@utility tile-scrim {
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-		to top,
-		rgb(0 0 0 / 0.88) 0%,
-		rgb(0 0 0 / 0.5) 22%,
-		transparent 52%
-	);
-}
-
-@utility tile-meta {
-	position: absolute;
-	inset: auto 0 0 0;
-	display: flex;
-	align-items: baseline;
+	display: grid;
+	grid-template-columns: 43% 43%;
 	justify-content: space-between;
-	gap: 0.75rem;
-	padding: 0.85rem 0.95rem;
+	container-type: inline-size;
+	isolation: isolate;
 }
 
-/** The tile's number, in mono — it is real data about the set, so it reads like a record. */
-@utility tile-index {
+/** One rail of plates. */
+@utility collage-rail {
+	display: flex;
+	flex-direction: column;
+	gap: 4cqw;
+}
+
+/** The right rail starts lower, and the cluster keeps drifting down and right from there. */
+@utility collage-rail-late {
+	padding-top: 9cqw;
+}
+
+/** The second plate of each rail steps in, so the four never settle into a grid. */
+.collage-rail > .collage-plate:nth-child(2) {
+	translate: 2.5cqw 0;
+}
+
+@utility collage-plate {
+	overflow: hidden;
+	background: var(--color-paper);
+	box-shadow: 0 12px 30px -20px rgb(0 0 0 / 0.9);
+	transition: box-shadow 0.4s ease;
+}
+
+/**
+ * No `object-fit` and no fixed height: the photograph is drawn at its own aspect ratio, so
+ * the frame can never take a slice off it.
+ */
+.collage-plate img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.collage:hover .collage-plate,
+.collage:focus-visible .collage-plate {
+	box-shadow:
+		0 12px 30px -20px rgb(0 0 0 / 0.9),
+		0 0 0 1px rgb(255 255 255 / 12%);
+}
+
+/** The sticker: a dark disc dropped on the junction of the plates. */
+@utility collage-sticker {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	display: grid;
+	place-content: center;
+	width: 46%;
+	aspect-ratio: 1;
+	padding: 6%;
+	border-radius: 9999px;
+	text-align: center;
+	background: radial-gradient(circle at 50% 30%, #17191b 0%, #040506 76%);
+	box-shadow:
+		0 22px 45px -16px rgb(0 0 0 / 0.9),
+		inset 0 0 0 1px rgb(255 255 255 / 9%);
+	transform: translate(-50%, -50%);
+	transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.collage:hover .collage-sticker,
+.collage:focus-visible .collage-sticker {
+	transform: translate(-50%, -50%) scale(1.045) rotate(-2.5deg);
+}
+
+/*
+ * The set ripples down the page. Two clusters per row sitting on ruled baselines is the one
+ * arrangement that makes them read as a catalogue, so the second of each pair starts lower
+ * and the gallery becomes a slow zig-zag instead of a grid.
+ */
+@media (min-width: 40rem) {
+	.collage-grid > :nth-child(2n) {
+		margin-top: 5rem;
+	}
+}
+
+/** The region's name, in the display italic — the posters' own lettering, kept. */
+@utility collage-city {
+	display: block;
+	font-family: var(--font-display);
+	font-size: 7cqw;
+	font-style: italic;
+	font-weight: 600;
+	font-variation-settings:
+		'SOFT' 60,
+		'WONK' 1;
+	line-height: 1.02;
+	color: var(--color-gold);
+	text-transform: capitalize;
+}
+
+@utility collage-word {
+	display: block;
+	font-family: var(--font-display);
+	font-size: 5.8cqw;
+	font-style: italic;
+	font-weight: 400;
+	font-variation-settings:
+		'SOFT' 60,
+		'WONK' 1;
+	line-height: 1.1;
+	color: var(--color-gold-light);
+}
+
+/** A number in mono — it is real data about a set, so it reads like a record. */
+@utility card-index {
 	font-family: var(--font-mono);
 	font-size: 0.66rem;
 	letter-spacing: 0.12em;
 	color: color-mix(in oklab, var(--color-gold) 80%, transparent);
-}
-
-@utility tile-label {
-	font-family: var(--font-display);
-	font-variation-settings:
-		'SOFT' 24,
-		'WONK' 1;
-	font-size: 1.02rem;
-	font-weight: 600;
-	color: var(--color-parchment);
-	text-transform: capitalize;
-	opacity: 0.88;
-	transform: translateY(0.25rem);
-	transition:
-		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-		opacity 0.4s ease;
-}
-
-.tile:hover .tile-label,
-.tile:focus-visible .tile-label {
-	opacity: 1;
-	transform: none;
 }
 
 /** Oversized initial over a card's photograph — the card's identity, not a stock photo. */

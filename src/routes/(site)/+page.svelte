@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { assets, siteName, siteTagline } from '#lib/data/site.ts';
 	import { communities } from '#lib/data/communities.ts';
-	import { gallery } from '#lib/data/gallery.ts';
+	import { collages } from '#lib/data/gallery.ts';
 	import { intro, parallax, refreshTriggers, reveal, splitWords } from '#lib/motion.ts';
 	import CommunityCard from '#lib/components/CommunityCard.svelte';
+	import MeetupCollage from '#lib/components/MeetupCollage.svelte';
 	import SectionHead from '#lib/components/SectionHead.svelte';
 	import type { PageProps } from './$types';
 
@@ -23,12 +24,6 @@
 		{ sel: '.hero-copy', y: 24 }
 	];
 
-	const ledger = $derived([
-		{ label: 'Regions', value: data.regions.length },
-		{ label: 'Meetups held', value: data.totalMeetups },
-		{ label: 'Communities', value: cards.length }
-	]);
-
 	$effect(() => {
 		void data.totalMeetups;
 		refreshTriggers();
@@ -46,21 +41,23 @@
 	<div class="hero-veil"></div>
 
 	<div class="shell hero-copy">
-		<!-- The institute's own crest stands where a caption used to: the mark says it. -->
-		<img
-			src={assets.iitmLogo}
-			alt="IIT Madras"
-			width="72"
-			height="72"
-			class="crest h-16 w-16 rounded-full object-cover md:h-[4.5rem] md:w-[4.5rem]"
-			data-intro="soft"
-		/>
+		<!-- The institute's own crest stands beside the name rather than above it. -->
+		<div class="flex items-center gap-4 md:gap-6">
+			<img
+				src={assets.iitmLogo}
+				alt="IIT Madras"
+				width="96"
+				height="96"
+				class="crest h-16 w-16 shrink-0 rounded-full object-cover md:h-24 md:w-24"
+				data-intro="soft"
+			/>
 
-		<h1 class="display-face mt-6 text-display leading-[0.9] font-semibold text-parchment">
-			<span class="block overflow-hidden pt-[0.08em] pb-[0.16em]">
-				<span class="block" data-intro="rise">{siteName}</span>
-			</span>
-		</h1>
+			<h1 class="display-face text-display leading-[0.9] font-semibold text-parchment">
+				<span class="block overflow-hidden pt-[0.08em] pb-[0.16em]">
+					<span class="block" data-intro="rise">{siteName}</span>
+				</span>
+			</h1>
+		</div>
 
 		<div class="mt-6 flex max-w-[22rem] items-center gap-3 text-gold">
 			<span class="rule-line" data-intro-rule></span>
@@ -108,27 +105,13 @@
 
 <!-- ────────────────────────────────────────────────────────────  gallery -->
 <!--
-	One photograph per meetup region, in a single grid with a feature tile spanning two
-	cells. The cell count (twelve) divides cleanly at two, three and four columns, so the
-	same markup stays square at every breakpoint.
+	One collage per meetup region: four photographs staggered 2x2 with the region named on
+	a disc at the junction. Three across on a wide screen, two on a tablet, one on a phone.
 -->
 <section class="shell py-20 md:py-24" use:reveal>
-	<SectionHead label="From the house" count={`${data.totalMeetups} meetups on record`} />
-
-	<div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-		{#each gallery as item, i (item.city)}
-			<a
-				href={`/meetups/${item.city}`}
-				class="tile group aspect-square {i === 0 ? 'col-span-2 row-span-2' : ''}"
-				data-reveal
-			>
-				<img src={item.src} alt="" loading="lazy" decoding="async" />
-				<span class="tile-scrim" aria-hidden="true"></span>
-				<span class="tile-meta">
-					<span class="tile-index">{String(i + 1).padStart(2, '0')}</span>
-					<span class="tile-label">{item.label}</span>
-				</span>
-			</a>
+	<div class="collage-grid grid items-start gap-x-6 gap-y-10 sm:grid-cols-2">
+		{#each collages as item (item.city)}
+			<MeetupCollage collage={item} />
 		{/each}
 	</div>
 

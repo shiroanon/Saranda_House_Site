@@ -126,6 +126,22 @@ export const resources: Resource[] = [
 			},
 			{ key: 'team', label: 'Team name', type: 'text', help: 'Only for team members, e.g. WebOps' },
 			{ key: 'photo', label: 'Photo', type: 'image', full: true },
+			{
+				key: 'photoPosition',
+				label: 'Photo focal point',
+				type: 'select',
+				options: [
+					{ value: '', label: 'Default (face high)' },
+					{ value: 'center top', label: 'Top' },
+					{ value: 'center 10%', label: 'Upper' },
+					{ value: 'center 24%', label: 'Face high' },
+					{ value: 'center 40%', label: 'Upper middle' },
+					{ value: 'center 50%', label: 'Middle' },
+					{ value: 'center 65%', label: 'Lower middle' },
+					{ value: 'center bottom', label: 'Bottom' }
+				],
+				help: 'Where the face sits in the frame. Pick the option that keeps the head in shot.'
+			},
 			{ key: 'sort', label: 'Sort order', type: 'number' }
 		],
 		label: (row) => text(row.name),

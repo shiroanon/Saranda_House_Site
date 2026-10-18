@@ -1,60 +1,119 @@
 // Landing gallery.
-// One photograph per meetup region, resized to 800px and re-encoded at q72 — the
-// crawl's originals are 1400x1400 squares averaging ~180 kB each, which is far too
-// heavy to put nine of on the front page.
+//
+// One collage per meetup region: up to four photographs from that region's *latest*
+// meetup, with the region named on a disc at the junction. Sources are crawl originals,
+// resized to a 480px long edge at q72 with the aspect ratio left alone — a plate is
+// exactly as tall as its photograph, so no frame ever takes a slice off one.
+//
+// Regions with only three photographs from their latest evening get three plates. The
+// layout is a pair of columns, so a third plate simply leaves its column short.
 
-export type GalleryItem = {
-	src: string;
-	/** The region the photograph came from — also the link target. */
+export type MeetupCollage = {
+	/** The region key — also the link target, `/meetups/<city>`. */
 	city: string;
-	/** Shown on the tile, title-cased. */
+	/** Shown on the sticker, title-cased. */
 	label: string;
+	/** The region's most recent meetup, for reference. */
+	event: string;
+	/** Photographs in wireframe order; rail one takes the odd positions, rail two the even. */
+	photos: string[];
 };
 
-export const gallery: GalleryItem[] = [
+export const collages: MeetupCollage[] = [
 	{
-		src: '/media/gallery/bengaluru.webp',
 		city: 'bengaluru',
 		label: 'Bengaluru',
+		event: 'Kottayam',
+		photos: [
+			'/media/gallery/bengaluru-1.webp',
+			'/media/gallery/bengaluru-2.webp',
+			'/media/gallery/bengaluru-3.webp',
+			'/media/gallery/bengaluru-4.webp'
+		]
 	},
 	{
-		src: '/media/gallery/chandigarh.webp',
 		city: 'chandigarh',
 		label: 'Chandigarh',
+		event: 'Jaipur',
+		photos: [
+			'/media/gallery/chandigarh-1.webp',
+			'/media/gallery/chandigarh-2.webp',
+			'/media/gallery/chandigarh-3.webp',
+			'/media/gallery/chandigarh-4.webp'
+		]
 	},
 	{
-		src: '/media/gallery/chennai.webp',
 		city: 'chennai',
 		label: 'Chennai',
+		event: 'Chennai',
+		photos: [
+			'/media/gallery/chennai-1.webp',
+			'/media/gallery/chennai-2.webp',
+			'/media/gallery/chennai-3.webp'
+		]
 	},
 	{
-		src: '/media/gallery/delhi.webp',
 		city: 'delhi',
 		label: 'Delhi',
+		event: 'Delhi',
+		photos: [
+			'/media/gallery/delhi-1.webp',
+			'/media/gallery/delhi-2.webp',
+			'/media/gallery/delhi-3.webp',
+			'/media/gallery/delhi-4.webp'
+		]
 	},
 	{
-		src: '/media/gallery/hyderabad.webp',
 		city: 'hyderabad',
 		label: 'Hyderabad',
+		event: 'Guntur',
+		photos: [
+			'/media/gallery/hyderabad-1.webp',
+			'/media/gallery/hyderabad-2.webp',
+			'/media/gallery/hyderabad-3.webp'
+		]
 	},
 	{
-		src: '/media/gallery/kolkata.webp',
 		city: 'kolkata',
 		label: 'Kolkata',
+		event: 'Kolkata',
+		photos: [
+			'/media/gallery/kolkata-1.webp',
+			'/media/gallery/kolkata-2.webp',
+			'/media/gallery/kolkata-3.webp',
+			'/media/gallery/kolkata-4.webp'
+		]
 	},
 	{
-		src: '/media/gallery/lucknow.webp',
 		city: 'lucknow',
 		label: 'Lucknow',
+		event: 'Bareilly',
+		photos: [
+			'/media/gallery/lucknow-1.webp',
+			'/media/gallery/lucknow-2.webp',
+			'/media/gallery/lucknow-3.webp',
+			'/media/gallery/lucknow-4.webp'
+		]
 	},
 	{
-		src: '/media/gallery/mumbai.webp',
 		city: 'mumbai',
 		label: 'Mumbai',
+		event: 'Pune',
+		photos: [
+			'/media/gallery/mumbai-1.webp',
+			'/media/gallery/mumbai-2.webp',
+			'/media/gallery/mumbai-3.webp',
+			'/media/gallery/mumbai-4.webp'
+		]
 	},
 	{
-		src: '/media/gallery/patna.webp',
 		city: 'patna',
 		label: 'Patna',
+		event: 'Jamshedpur',
+		photos: [
+			'/media/gallery/patna-1.webp',
+			'/media/gallery/patna-2.webp',
+			'/media/gallery/patna-3.webp'
+		]
 	},
 ];

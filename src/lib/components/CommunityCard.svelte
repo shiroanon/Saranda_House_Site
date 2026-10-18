@@ -27,7 +27,7 @@
 	<span class="community-scrim" aria-hidden="true"></span>
 
 	<div class="relative p-6">
-		<span class="tile-index">No. {String(index + 1).padStart(2, '0')}</span>
+		<span class="card-index">No. {String(index + 1).padStart(2, '0')}</span>
 
 		<h3 class="display-face mt-2 text-[1.5rem] leading-tight font-semibold text-parchment">
 			{community.title}

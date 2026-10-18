@@ -28,6 +28,11 @@ export type Person = {
 	role: string;
 	photo?: string;
 	/**
+	 * CSS `object-position` for the portrait, so a tall or off-centre photograph can be
+	 * framed correctly per person. Defaults to `center 24%` (face high in the frame).
+	 */
+	photoPosition?: string;
+	/**
 	 * A seat that exists but nobody holds yet. The live site carries the Web Admin post
 	 * with a `________` name and the placeholder portrait; this flag renders it as an open
 	 * position instead of inventing a person for it.
@@ -274,6 +279,7 @@ export const teams: Team[] = [
 				name: 'Ajish Priyan K',
 				role: 'PR & Outreach',
 				photo: '/media/sanity/97d83485b650ba09b020a2edb8031e84fa447703-313x833.webp',
+				photoPosition: 'center top',
 				mail: '26f2200147@mg.study.iitm.ac.in',
 				linkedin: 'ajish-priyan-undefined-47b275427',
 				instagram: 'ajish_priyan'

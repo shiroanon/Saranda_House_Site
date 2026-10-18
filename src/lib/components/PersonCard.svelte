@@ -44,7 +44,13 @@
 	data-reveal
 >
 	{#if person.photo}
-		<img src={person.photo} alt={person.name} loading="lazy" decoding="async" />
+		<img
+			src={person.photo}
+			alt={person.name}
+			loading="lazy"
+			decoding="async"
+			style="object-position: {person.photoPosition ?? 'center 24%'}"
+		/>
 	{:else}
 		<img src={assets.placeholder} alt={person.vacant ? '' : person.name} />
 	{/if}
