@@ -39,7 +39,7 @@
 					src={event.image}
 					alt=""
 					loading="lazy"
-					class="album-photo aspect-[3/4] w-full rounded-xl object-cover"
+					class="album-photo h-auto w-full rounded-xl"
 				/>
 			{/if}
 

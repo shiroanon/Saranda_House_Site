@@ -4,7 +4,7 @@
 	import { collages } from '#lib/data/gallery.ts';
 	import { intro, parallax, refreshTriggers, reveal, splitWords } from '#lib/motion.ts';
 	import CommunityCard from '#lib/components/CommunityCard.svelte';
-	import MeetupCollage from '#lib/components/MeetupCollage.svelte';
+	import PinnedCollageRail from '#lib/components/PinnedCollageRail.svelte';
 	import SectionHead from '#lib/components/SectionHead.svelte';
 	import type { PageProps } from './$types';
 
@@ -43,6 +43,12 @@
 	<div class="shell hero-copy">
 		<!-- The institute's own crest stands beside the name rather than above it. -->
 		<div class="flex items-center gap-4 md:gap-6">
+			<h1 class="brand-face text-display text-parchment">
+				<span class="block overflow-hidden pt-[0.08em] pb-[0.16em]">
+					<span class="block" data-intro="rise">{siteName}</span>
+				</span>
+			</h1>
+
 			<img
 				src={assets.iitmLogo}
 				alt="IIT Madras"
@@ -51,12 +57,6 @@
 				class="crest h-16 w-16 shrink-0 rounded-full object-cover md:h-24 md:w-24"
 				data-intro="soft"
 			/>
-
-			<h1 class="display-face text-display leading-[0.9] font-semibold text-parchment">
-				<span class="block overflow-hidden pt-[0.08em] pb-[0.16em]">
-					<span class="block" data-intro="rise">{siteName}</span>
-				</span>
-			</h1>
 		</div>
 
 		<div class="mt-6 flex max-w-[22rem] items-center gap-3 text-gold">
@@ -80,7 +80,7 @@
 	<img src={assets.forestFront} alt="" class="hero-front" />
 </section>
 
-<!-- ─────────────────────────────────────────────────────────────────────  about -->
+<!-- ─────────────────────────────────────────────────────────────  about -->
 <section class="shell py-20 md:py-28" use:reveal>
 	<div class="rail">
 		<div>
@@ -106,16 +106,16 @@
 <!-- ────────────────────────────────────────────────────────────  gallery -->
 <!--
 	One collage per meetup region: four photographs staggered 2x2 with the region named on
-	a disc at the junction. Three across on a wide screen, two on a tablet, one on a phone.
+	a disc at the junction. Full-bleed and pinned, so the whole set slides past as you scroll.
 -->
-<section class="shell py-20 md:py-24" use:reveal>
-	<div class="collage-grid grid items-start gap-x-6 gap-y-10 sm:grid-cols-2">
-		{#each collages as item (item.city)}
-			<MeetupCollage collage={item} />
-		{/each}
-	</div>
+<section class="py-20 md:py-24">
+	<!--
+		Full-bleed on purpose: ScrollTrigger pins this band and measures travel against the
+		viewport, so it must not sit inside the 88rem `shell` column.
+	-->
+	<PinnedCollageRail items={collages} />
 
-	<div class="mt-9 flex flex-wrap gap-x-7 gap-y-3">
+	<div class="shell mt-9 flex flex-wrap gap-x-7 gap-y-3">
 		<a href="/meetups" class="text-link">Every meetup region</a>
 		<a href="/events" class="text-link">What the house has run</a>
 	</div>

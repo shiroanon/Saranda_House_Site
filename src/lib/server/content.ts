@@ -49,6 +49,7 @@ export type MeetupEventRow = {
 	date?: string;
 	description?: string;
 	images?: string[];
+	collage?: string[];
 };
 
 /** A row in the Appwrite `people` table: a person, plus where they sit in the house. */
@@ -155,7 +156,8 @@ const staticMeetupEvents = (city?: string): MeetupEventRow[] => {
 			name: e.name,
 			date: e.date ?? undefined,
 			description: e.description,
-			images: e.images
+			images: e.images,
+collage: e.images.slice(0, 4)
 		}))
 	);
 };

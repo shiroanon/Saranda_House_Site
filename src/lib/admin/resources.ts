@@ -95,7 +95,8 @@ export const resources: Resource[] = [
 			{ key: 'name', label: 'Name', type: 'text', required: true },
 			{ key: 'date', label: 'Date', type: 'date' },
 			{ key: 'description', label: 'Description', type: 'textarea', full: true },
-			{ key: 'images', label: 'Photos', type: 'images', full: true, help: 'One URL per line; uploads are appended.' }
+			{ key: 'images', label: 'Photos', type: 'images', full: true, help: 'One URL per line; uploads are appended.' },
+			{ key: 'collage', label: 'Collage photos', type: 'images', full: true, help: 'Up to four photos shown in the collage at the top of the meetup. Leave blank to use the first four of Photos.' }
 		],
 		// This table has no `sort` column — a meetup's place in the list is its date,
 		// which is also how the public page orders them.

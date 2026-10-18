@@ -28,6 +28,8 @@ export type RevealOptions = {
 	y?: number;
 	/** ScrollTrigger start point. */
 	start?: string;
+	/** Direction the items travel in from. 'up' (default) rises, 'right'/'left' slide. */
+	direction?: 'up' | 'right' | 'left';
 };
 
 /**
@@ -37,7 +39,7 @@ export type RevealOptions = {
  * drawing left to right) as one trigger, so a section arrives as a single gesture.
  */
 export function reveal(node: HTMLElement, options: RevealOptions | true = {}) {
-	const { stagger = 0.07, y = 22, start = 'top 85%' } = options === true ? {} : options;
+	const { stagger = 0.07, y = 22, start = 'top 85%', direction = 'up' } = options === true ? {} : options;
 
 	const mm = gsap.matchMedia();
 
@@ -49,14 +51,25 @@ export function reveal(node: HTMLElement, options: RevealOptions | true = {}) {
 		const trigger = { trigger: node, start, once: true } as const;
 
 		if (items.length) {
-			gsap.fromTo(items, { autoAlpha: 0, y }, {
+			const fromVars: gsap.TweenVars = { autoAlpha: 0 };
+			const toVars: gsap.TweenVars = {
 				autoAlpha: 1,
-				y: 0,
-				duration: 0.75,
+				duration: 0.9,
 				ease: 'power3.out',
 				stagger,
 				scrollTrigger: trigger
-			});
+			};
+			if (direction === 'up') {
+				fromVars.y = y;
+				toVars.y = 0;
+			} else if (direction === 'right') {
+				fromVars.xPercent = 100;
+				toVars.xPercent = 0;
+			} else if (direction === 'left') {
+				fromVars.xPercent = -100;
+				toVars.xPercent = 0;
+			}
+			gsap.fromTo(items, fromVars, toVars);
 		}
 
 		if (rules.length) {

@@ -1,11 +1,22 @@
 <script lang="ts">
 	import PageHero from '#lib/components/PageHero.svelte';
+	import MeetupCollage from '#lib/components/MeetupCollage.svelte';
 	import { assets } from '#lib/data/site.ts';
 	import { formatDate, toDate } from '#lib/format.ts';
 	import { reveal } from '#lib/motion.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
+
+	/** Pick the collage photos: an explicit selection, else the first four of the album. */
+	const collageOf = (event: (typeof data.events)[number]) =>
+		(event.collage?.length ? event.collage : (event.images ?? []).slice(0, 4)).slice(0, 4);
+
+	/** The remaining photographs, so nothing is shown twice. */
+	const restOf = (event: (typeof data.events)[number]) => {
+		const chosen = new Set(collageOf(event));
+		return (event.images ?? []).filter((src) => !chosen.has(src));
+	};
 </script>
 
 <svelte:head>
@@ -43,16 +54,26 @@
 			{/if}
 
 			{#if event.images?.length}
-				<div class="mt-6 columns-2 gap-3 md:columns-3 lg:columns-4">
-					{#each event.images as src, i (`${event.$id}-${i}`)}
-						<img
-							{src}
-							alt={`${event.name} photo`}
-							loading="lazy"
-							class="album-photo mb-3 w-full rounded-lg break-inside-avoid"
-						/>
-					{/each}
+				<div class="mt-6 max-w-md">
+					<MeetupCollage
+						photos={collageOf(event)}
+						label={formatDate(event.date) || event.name}
+						sublabel="Meetup"
+					/>
 				</div>
+
+				{#if restOf(event).length}
+					<div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+						{#each restOf(event) as src, i (`${event.$id}-rest-${i}`)}
+							<img
+								{src}
+								alt={`${event.name} photo`}
+								loading="lazy"
+								class="album-photo h-auto w-full rounded-lg"
+							/>
+						{/each}
+					</div>
+				{/if}
 			{/if}
 		</article>
 	{/each}

@@ -36,6 +36,7 @@
 	--font-display: 'Fraunces', ui-serif, Georgia, serif;
 	--font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
 	--font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+	--font-slackey: 'Slackey', 'Fraunces', ui-serif, Georgia, serif;
 
 	--text-display: clamp(2.9rem, 9.5vw, 7rem);
 	--text-headline: clamp(1.9rem, 4.6vw, 3.1rem);
@@ -517,6 +518,20 @@
 	letter-spacing: -0.015em;
 }
 
+/**
+ * The house wordmark — the "Saranda" name only. Slackey is a single, very heavy display
+ * weight with no variable axes, so weight is pinned to 400 (anything else fakes a bold)
+ * and the size is pulled in a touch, because Slackey runs much wider than Fraunces.
+ */
+@utility brand-face {
+	font-family: var(--font-slackey);
+	font-weight: 400;
+	font-variation-settings: normal;
+	font-optical-sizing: auto;
+	letter-spacing: -0.005em;
+	line-height: 0.98;
+}
+
 /** Mono eyebrow. Carries real information — a section name, a date, a city. */
 @utility eyebrow {
 	font-family: var(--font-mono);
@@ -645,12 +660,9 @@
 /** An album shot: a little depth, a little lift. No filter — the picture is the point. */
 @utility album-photo {
 	box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
-	transition:
-		transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-		box-shadow 0.3s ease;
+	transition: box-shadow 0.3s ease;
 
 	&:hover {
-		transform: scale(1.02);
 		box-shadow: 0 8px 22px rgb(0 0 0 / 32%);
 	}
 }
