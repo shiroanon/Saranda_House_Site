@@ -1,19 +1,36 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { nav, assets, siteName } from '#lib/data/site.ts';
+	import { scrollProgress } from '#lib/motion.ts';
 
 	let mobileOpen = $state(false);
 	let openDropdown = $state<string | null>(null);
+	let lifted = $state(false);
 
 	const isActive = (href: string) =>
 		href === '/' ? page.url.pathname === '/' : page.url.pathname.startsWith(href);
+
+	$effect(() => {
+		const onScroll = () => (lifted = window.scrollY > 12);
+		onScroll();
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => window.removeEventListener('scroll', onScroll);
+	});
 </script>
 
-<header class="sticky top-0 z-50 border-b border-primary/10 bg-neutral-light/80 backdrop-blur">
-	<nav class="mx-auto flex max-w-[120ch] items-center justify-between gap-4 px-5 py-3">
-		<a href="/" class="flex items-center gap-3" onclick={() => (mobileOpen = false)}>
-			<img src={assets.logo} alt={`${siteName} logo`} width="44" height="44" class="rounded-full" />
-			<span class="text-lg font-bold tracking-wide">{siteName}</span>
+<header class="site-head" class:lifted>
+	<nav class="shell flex items-center justify-between gap-6 py-3.5">
+		<a href="/" class="group flex items-center gap-3" onclick={() => (mobileOpen = false)}>
+			<img
+				src={assets.logo}
+				alt={`${siteName} crest`}
+				width="42"
+				height="42"
+				class="crest rounded-full"
+			/>
+			<span class="display-face text-[1.35rem] leading-none font-semibold tracking-tight">
+				{siteName}
+			</span>
 		</a>
 
 		<!-- Desktop -->
@@ -23,25 +40,21 @@
 					{#if item.children}
 						<button
 							type="button"
-							class="rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary/60"
-							class:text-secondary-darker={isActive(item.href)}
+							class="nav-link"
+							class:active={isActive(item.href)}
 							aria-expanded={openDropdown === item.text}
 							onclick={() => (openDropdown = openDropdown === item.text ? null : item.text)}
-							onblur={() => setTimeout(() => (openDropdown = null), 150)}
 						>
-							{item.text} <span aria-hidden="true">▾</span>
+							{item.text}
+							<span aria-hidden="true" class="text-[0.7em] opacity-70">▼</span>
 						</button>
 						{#if openDropdown === item.text}
-							<ul
-								class="absolute right-0 mt-1 min-w-[10rem] overflow-hidden rounded-xl border border-primary/10 bg-neutral-light shadow-lg"
-							>
+							<ul class="nav-menu">
 								{#each item.children as child (child.href)}
 									<li>
-										<a
-											href={child.href}
-											class="block px-4 py-2 text-sm capitalize hover:bg-secondary/60"
-											onclick={() => (openDropdown = null)}>{child.text}</a
-										>
+										<a href={child.href} onclick={() => (openDropdown = null)}>
+											{child.text}
+										</a>
 									</li>
 								{/each}
 							</ul>
@@ -49,10 +62,12 @@
 					{:else}
 						<a
 							href={item.href}
-							class="rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary/60"
-							class:text-secondary-darker={isActive(item.href)}
-							aria-current={isActive(item.href) ? 'page' : undefined}>{item.text}</a
+							class="nav-link"
+							class:active={isActive(item.href)}
+							aria-current={isActive(item.href) ? 'page' : undefined}
 						>
+							{item.text}
+						</a>
 					{/if}
 				</li>
 			{/each}
@@ -60,7 +75,7 @@
 
 		<button
 			type="button"
-			class="rounded-lg p-2 md:hidden"
+			class="rounded-lg p-2 text-primary md:hidden"
 			aria-label="Toggle menu"
 			aria-expanded={mobileOpen}
 			onclick={() => (mobileOpen = !mobileOpen)}
@@ -79,13 +94,13 @@
 
 	<!-- Mobile -->
 	{#if mobileOpen}
-		<ul class="border-t border-primary/10 bg-neutral-light px-5 pb-4 md:hidden">
+		<ul class="border-t border-primary/10 bg-paper px-5 pb-4 md:hidden">
 			{#each nav as item (item.href)}
 				<li>
 					<a
 						href={item.href}
-						class="block py-2 font-medium"
-						class:text-secondary-darker={isActive(item.href)}
+						class="block py-2.5 font-medium"
+						class:text-bronze={isActive(item.href)}
 						onclick={() => (mobileOpen = false)}>{item.text}</a
 					>
 				</li>
@@ -94,8 +109,8 @@
 						<li>
 							<a
 								href={child.href}
-								class="block py-1.5 pl-5 text-sm capitalize opacity-90"
-								onclick={() => (mobileOpen = false)}>· {child.text}</a
+								class="block py-1.5 pl-4 text-sm text-moss"
+								onclick={() => (mobileOpen = false)}>{child.text}</a
 							>
 						</li>
 					{/each}
@@ -103,4 +118,7 @@
 			{/each}
 		</ul>
 	{/if}
+
+	<!-- Reading progress: the banner rule again, this time doing a job. -->
+	<span class="progress-rail" use:scrollProgress aria-hidden="true"></span>
 </header>

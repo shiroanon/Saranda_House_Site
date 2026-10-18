@@ -80,11 +80,13 @@ export const usefulLinks: { title: string; url: string }[] = [
 ];
 
 // Local decorative assets (from /static/media/site).
+// The crests carry their own near-black ground so they sit flush in the dark chrome,
+// and the canopy is encoded lossily at alpha_quality 50 — the lossless original was 966 kB.
 export const assets = {
-	logo: '/media/site/saranda_logo.e7bbe2ef.webp',
-	iitmLogo: '/media/site/iitm_logo.d26c79e3.webp',
+	logo: '/media/site/saranda-crest.b5ad9ee0.webp',
+	iitmLogo: '/media/site/iitm-crest.8f9c8134.webp',
 	forestBack: '/media/site/lush-forest-back.55f0a252.webp',
-	forestFront: '/media/site/lush-forest-front.95f59211.webp',
+	forestFront: '/media/site/lush-forest-front.e7c89a19.webp',
 	mist1: '/media/site/mist_forest1.25b52791.webp',
 	mist2: '/media/site/mist_forest2.21b90b39.webp',
 	loneTree: '/media/site/lone_tree.7cc6d0ce.webp',

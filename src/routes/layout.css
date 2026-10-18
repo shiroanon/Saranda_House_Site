@@ -2,24 +2,67 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
-/* Palette ported from saranda.iitmbs.org (forest greens + gold on warm paper). */
+/*
+ * Saranda house design system.
+ *
+ * The palette is the house's own: forest green and gold, taken from the original
+ * saranda.iitmbs.org. The ground is deep night-green everywhere — parchment is text,
+ * not paper. Type does the rest: a carved Fraunces display face (WONK on) for house
+ * voice, Hanken Grotesk for reading, IBM Plex Mono for anything that is genuinely data:
+ * dates, cities, roles, counts, section labels.
+ *
+ * Colour roles, so nothing lands on the wrong ground:
+ *   night      → the page itself
+ *   paper      → a card lifted one step off the page
+ *   green      → a band, one step above that
+ *   parchment  → body text (12.6:1 on night)
+ *   moss       → captions and meta (7.4:1 on night)
+ *   bronze     → the gold "ink" for small accent text (6.8:1 on night)
+ *   gold       → accents and hairlines; as text it needs night behind it
+ */
 @theme {
-	--color-primary: oklch(40.02% 0.06 151.15);
-	--color-primary-lighter: oklch(96.88% 0.06 151.15);
-	--color-primary-darker: oklch(16.17% 0.06 151.15);
+	--color-abyss: #000000;
+	--color-night: #071310;
+	--color-green: #16331f;
+	--color-moss: #9db894;
+	--color-gold: #e4b033;
+	--color-gold-light: #f2cd6d;
+	--color-bronze: #d9a24a;
+	--color-parchment: #ece6d0;
+	--color-paper: #0f2219;
 
-	--color-secondary: oklch(90.69% 0.1869 102.87);
-	--color-secondary-ligher: oklch(99.9% 0.1869 102.87);
-	--color-secondary-darker: oklch(80% 0.1869 102.87);
+	--font-display: 'Fraunces', ui-serif, Georgia, serif;
+	--font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
 
-	--color-neutral-light: oklch(98.5% 0 0);
-	--color-neutral-light-lighter: oklch(100% 0 0);
-	--color-neutral-light-darker: oklch(82.05% 0 0);
+	--text-display: clamp(2.9rem, 9.5vw, 7rem);
+	--text-headline: clamp(1.9rem, 4.6vw, 3.1rem);
+	--text-title: clamp(1.35rem, 2.4vw, 1.75rem);
+	--leading-display: 0.92;
 
-	--color-neutral-dark: oklch(26.31% 0.026 140.39);
-	--color-neutral-dark-lighter: oklch(51.48% 0.026 140.39);
-	--color-neutral-dark-darker: oklch(11.42% 0.026 140.39);
-	--color-neutral-dark-glass: oklch(26.31% 0.026 140.39 / 0.8);
+	/*
+	 * Back-compat aliases. Admin screens and the older components use these names, so they
+	 * are retuned rather than renamed — every existing `text-secondary-darker` link and
+	 * `green-glass-container` panel picks up the dark ground and corrected contrast for
+	 * free. `primary` is now the light text colour, which is what the markup expects.
+	 */
+	--color-primary: #ece6d0;
+	--color-primary-lighter: #16331f;
+	--color-primary-darker: #071310;
+
+	--color-secondary: #e4b033;
+	--color-secondary-ligher: #f2cd6d;
+	--color-secondary-darker: #d9a24a;
+
+	--color-neutral-light: #12271c;
+	--color-neutral-light-lighter: #16331f;
+	--color-neutral-light-darker: #0b1a12;
+
+	/* Unused by the markup today, kept so older panels still resolve. */
+	--color-neutral-dark: #ece6d0;
+	--color-neutral-dark-lighter: #f4efdd;
+	--color-neutral-dark-darker: #9db894;
+	--color-neutral-dark-glass: rgb(12 35 24 / 0.85);
 
 	--animate-heroslideup: heroslideup 1s cubic-bezier(0.26, 1, 0.61, 1) 1;
 
@@ -36,26 +79,839 @@
 }
 
 @layer base {
+	html {
+		scroll-behavior: smooth;
+		min-height: 100%;
+		/*
+		 * The house ground. Black at the masthead, easing down through the very bottom of
+		 * the forest the house sits in — so the page reads as night, not as green. Green
+		 * is then something the bands *do*, rather than the colour everything sits on.
+		 */
+		background-color: var(--color-abyss);
+		background-image: linear-gradient(
+			to bottom,
+			var(--color-abyss) 0%,
+			#01050a 30%,
+			#020806 56%,
+			#030b07 80%,
+			#061009 100%
+		);
+		background-repeat: no-repeat;
+	}
+
 	body {
-		background-color: #ece6c6;
+		background-color: transparent;
+		color: var(--color-parchment);
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		line-height: 1.65;
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-variation-settings: 'SOFT' 24, 'WONK' 1;
+		font-optical-sizing: auto;
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	/* Keyboard focus is visible everywhere, in the house gold. */
+	:focus-visible {
+		outline: 2px solid var(--color-gold);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	::selection {
+		background: var(--color-gold);
+		color: var(--color-night);
+	}
+}
+
+/* ---------------------------------------------------------------- primitives */
+
+/** Sticky house bar. Lifts slightly once the page has scrolled. */
+@utility site-head {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: color-mix(in oklab, var(--color-night) 88%, transparent);
+	backdrop-filter: blur(10px);
+	border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	transition:
+		background-color 0.3s ease,
+		box-shadow 0.3s ease;
+
+	&.lifted {
+		background: color-mix(in oklab, var(--color-night) 96%, transparent);
+		box-shadow: 0 12px 32px -24px rgb(0 0 0 / 0.9);
+	}
+}
+
+/** Nav item. The gold underline wipes in from the left on hover and on the current page. */
+@utility nav-link {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.5rem 0.75rem;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	font-family: var(--font-sans);
+	font-size: 0.95rem;
+	font-weight: 500;
+	color: var(--color-primary);
+	transition: color 0.25s ease;
+
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0.75rem;
+		right: 0.75rem;
+		bottom: 0.15rem;
+		height: 1.5px;
+		background: var(--color-gold);
+		transform: scaleX(0);
+		transform-origin: left center;
+		transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	&:hover::after,
+	&.active::after {
+		transform: scaleX(1);
+	}
+
+	&.active {
+		color: var(--color-bronze);
+	}
+}
+
+@utility nav-menu {
+	position: absolute;
+	right: 0;
+	margin-top: 0.5rem;
+	min-width: 11rem;
+	padding: 0.35rem;
+	background: var(--color-paper);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border-radius: var(--radius-lg);
+	box-shadow: 0 18px 40px -24px rgb(0 0 0 / 60%);
+
+	& a {
+		display: block;
+		padding: 0.45rem 0.7rem;
+		border-radius: 0.4rem;
+		font-size: 0.9rem;
+		text-transform: capitalize;
+		transition: background-color 0.2s ease;
+	}
+
+	& a:hover {
+		background: color-mix(in oklab, var(--color-gold) 20%, transparent);
+	}
+}
+
+/** The crest, held in a thin gold ring. */
+@utility crest {
+	box-shadow:
+		0 0 0 1.5px color-mix(in oklab, var(--color-gold) 60%, transparent),
+		0 0 0 4px color-mix(in oklab, var(--color-paper) 92%, transparent);
+}
+
+/** Links inside the dark footer: a gold underline wipes in on hover. */
+@utility footer-link {
+	color: color-mix(in oklab, var(--color-parchment) 80%, transparent);
+	text-decoration: none;
+	background-image: linear-gradient(var(--color-gold), var(--color-gold));
+	background-size: 0% 1px;
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	transition:
+		color 0.25s ease,
+		background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+	&:hover {
+		color: var(--color-gold-light);
+		background-size: 100% 1px;
+	}
+}
+
+/**
+ * Inner-page hero. Dark on the left where the type sits, opening up to the art on the
+ * right — the opposite of a centred banner, so every page leads from the same edge.
+ */
+@utility page-hero {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	background: var(--color-abyss);
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: auto 0 0 0;
+		height: 26%;
+		z-index: 5;
+		pointer-events: none;
+		background: linear-gradient(to bottom, transparent, var(--color-abyss) 88%);
+	}
+}
+
+@utility hero-art {
+	position: absolute;
+	inset: 0;
+	z-index: -10;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center 42%;
+	opacity: 0.8;
+}
+
+@utility hero-scrim {
+	position: absolute;
+	inset: 0;
+	z-index: -10;
+	background:
+		linear-gradient(
+			100deg,
+			var(--color-night) 8%,
+			color-mix(in oklab, var(--color-night) 62%, transparent) 52%,
+			color-mix(in oklab, var(--color-night) 18%, transparent) 100%
+		),
+		linear-gradient(to top, var(--color-night) 0%, transparent 42%);
+}
+
+/* --------------------------------------------------------------------- home hero */
+
+/*
+ * The house name lives *between* the two forest layers: the back plate at z-1 and the
+ * veil at z-2, the wordmark at z-3, and the transparent-sky foreground at z-4 — so the
+ * tree tops occlude its base. The two plates then drift apart on scroll.
+ */
+@utility hero {
+	position: relative;
+	isolation: isolate;
+	display: flex;
+	align-items: flex-start;
+	overflow: hidden;
+	min-height: 88svh;
+	background: var(--color-abyss);
+
+	/* Dissolve the forest into the black page rather than ending on a hard edge. */
+	&::after {
+		content: '';
+		position: absolute;
+		inset: auto 0 0 0;
+		height: 30%;
+		z-index: 5;
+		pointer-events: none;
+		background: linear-gradient(to bottom, transparent, var(--color-abyss) 82%);
+	}
+}
+
+@utility hero-back {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/** Keeps the mist from swallowing the white type at the top-left. */
+@utility hero-veil {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	background:
+		linear-gradient(
+			180deg,
+			color-mix(in oklab, var(--color-night) 74%, transparent) 0%,
+			color-mix(in oklab, var(--color-night) 26%, transparent) 40%,
+			color-mix(in oklab, var(--color-night) 52%, transparent) 100%
+		),
+		linear-gradient(95deg, color-mix(in oklab, var(--color-night) 62%, transparent) 0%, transparent 62%);
+}
+
+@utility hero-front {
+	position: absolute;
+	inset: 0;
+	z-index: 4;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: bottom;
+	pointer-events: none;
+	/*
+	 * Fade the canopy out toward the top so it never cuts a hard edge across the mist,
+	 * and so the wordmark is kissed by treetops at rest — then climbs over it on scroll.
+	 */
+	-webkit-mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 52%);
+	mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 52%);
+}
+
+@utility hero-copy {
+	position: relative;
+	z-index: 3;
+	padding-top: 11vh;
+	padding-bottom: 42vh;
+}
+
+@utility btn-gold {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.7rem 1.4rem;
+	border: 0;
+	border-radius: 0.55rem;
+	background: var(--color-gold);
+	color: var(--color-night);
+	font-weight: 600;
+	font-size: 0.95rem;
+	box-shadow: 0 12px 26px -16px color-mix(in oklab, var(--color-gold) 90%, transparent);
+	transition:
+		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+		background-color 0.25s ease;
+
+	&:hover {
+		background: var(--color-gold-light);
+		transform: translateY(-2px);
+	}
+}
+
+@utility btn-ghost {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.7rem 1.4rem;
+	border: 1px solid color-mix(in oklab, var(--color-parchment) 45%, transparent);
+	border-radius: 0.55rem;
+	background: color-mix(in oklab, var(--color-night) 32%, transparent);
+	color: var(--color-parchment);
+	font-weight: 600;
+	font-size: 0.95rem;
+	backdrop-filter: blur(6px);
+	transition:
+		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+		background-color 0.25s ease,
+		border-color 0.25s ease;
+
+	&:hover {
+		background: color-mix(in oklab, var(--color-night) 58%, transparent);
+		border-color: var(--color-gold);
+		transform: translateY(-2px);
+	}
+}
+
+/** Inline link on parchment: a gold underline wipes in on hover. */
+@utility text-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-weight: 600;
+	font-size: 0.95rem;
+	color: var(--color-bronze);
+	text-decoration: none;
+	background-image: linear-gradient(var(--color-gold), var(--color-gold));
+	background-size: 0% 1px;
+	background-repeat: no-repeat;
+	background-position: 0 100%;
+	transition:
+		background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+		color 0.25s ease;
+
+	&:hover {
+		background-size: 100% 1px;
 		color: var(--color-primary);
 	}
 }
 
-/* Frosted panel used for content blocks (matches the source's .green-glass-container). */
+/** Region chip inside the dark band. */
+@utility region-chip {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.55rem;
+	padding: 0.5rem 0.95rem;
+	border: 1px solid color-mix(in oklab, var(--color-gold) 32%, transparent);
+	border-radius: 999px;
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	letter-spacing: 0.05em;
+	text-transform: capitalize;
+	color: var(--color-parchment);
+	transition:
+		background-color 0.25s ease,
+		border-color 0.25s ease,
+		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+
+	& span {
+		color: var(--color-gold);
+		font-size: 0.7rem;
+	}
+
+	&:hover {
+		background: color-mix(in oklab, var(--color-gold) 16%, transparent);
+		border-color: var(--color-gold);
+		transform: translateY(-2px);
+	}
+}
+
+/** The carved house display face. Use for headings only. */
+@utility display-face {
+	font-family: var(--font-display);
+	font-variation-settings: 'SOFT' 24, 'WONK' 1;
+	font-optical-sizing: auto;
+	letter-spacing: -0.015em;
+}
+
+/** Mono eyebrow. Carries real information — a section name, a date, a city. */
+@utility eyebrow {
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	font-weight: 500;
+	letter-spacing: 0.17em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+/**
+ * The banner rule: a hairline terminating in a lozenge, like the end of a ribbon.
+ * The line takes the surrounding text colour so it reads on parchment *and* on the dark
+ * bands; the lozenge is always house gold, which is the only gold allowed on paper.
+ */
+@utility rule-line {
+	height: 1px;
+	flex: 1 1 auto;
+	transform-origin: left center;
+	background: color-mix(in oklab, currentColor 40%, transparent);
+}
+
+@utility rule-dot {
+	width: 7px;
+	height: 7px;
+	flex: none;
+	rotate: 45deg;
+	background: var(--color-gold);
+}
+
+@utility rule-wrap {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	flex: 1 1 auto;
+	min-width: 2rem;
+}
+
+/**
+ * Section heading: mono label, banner rule, then the display face underneath.
+ * The rule marks where one section ends and the next begins — it is structure, not trim.
+ */
+@utility section-head {
+	@apply mb-8 flex items-center gap-3;
+	@apply eyebrow text-moss;
+
+	> .rule-wrap {
+		@media (max-width: 40rem) {
+			display: none;
+		}
+	}
+}
+
+/* Site gutter. 120ch was too wide for comfortable line lengths at body size. */
+@utility shell {
+	margin-inline: auto;
+	width: 100%;
+	max-width: 88rem;
+	padding-inline: 1.25rem;
+}
+
+/**
+ * Asymmetric section grid: a narrow rail on the left carrying the label, the content
+ * in the remaining columns. Collapses to a single column on small screens.
+ */
+@utility rail {
+	display: grid;
+	gap: 1.25rem 3.5rem;
+	grid-template-columns: minmax(0, 1fr);
+
+	@media (min-width: 62rem) {
+		grid-template-columns: 10.5rem minmax(0, 1fr);
+	}
+}
+
+/** The raised paper surface, used instead of white-on-cream. */
+@utility card {
+	background: var(--color-paper);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border-radius: var(--radius-xl);
+	box-shadow:
+		0 1px 2px color-mix(in oklab, var(--color-night) 6%, transparent),
+		0 10px 28px -18px color-mix(in oklab, var(--color-night) 45%, transparent);
+	transition:
+		transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+		box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Full-bleed deep-green band. Breaks the parchment run and carries the house voice. */
+@utility band {
+	background: var(--color-green);
+	color: var(--color-parchment);
+	position: relative;
+	overflow: hidden;
+}
+
+@utility band-rule {
+	background: repeating-linear-gradient(
+		to right,
+		color-mix(in oklab, var(--color-gold) 55%, transparent) 0 6px,
+		transparent 6px 12px
+	);
+}
+
+/* Frosted panel kept for the admin screens, which share this stylesheet. */
 @utility green-glass-container {
-	background-color: color-mix(in oklab, var(--color-neutral-light) 70%, transparent);
-	backdrop-filter: blur(6px);
+	background-color: color-mix(in oklab, var(--color-neutral-light) 82%, transparent);
+	backdrop-filter: blur(8px);
 	border: 1px solid color-mix(in oklab, var(--color-primary) 15%, transparent);
 	border-radius: var(--radius-xl);
 	box-shadow: 0 4px 12px color-mix(in oklab, var(--color-primary) 12%, transparent);
 }
 
+/** An album shot: a little depth, a little lift. No filter — the picture is the point. */
 @utility album-photo {
-	box-shadow: 0 2px 8px color-mix(in oklab, black 30%, transparent);
-	transition: transform 0.2s ease;
+	box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
+	transition:
+		transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+		box-shadow 0.3s ease;
 
 	&:hover {
-		transform: scale(1.03);
+		transform: scale(1.02);
+		box-shadow: 0 8px 22px rgb(0 0 0 / 32%);
+	}
+}
+
+/* --------------------------------------------------------- cards & scroll work */
+
+/** An event row: a hairline, generous rhythm, and a poster that can sit alongside. */
+@utility event-row {
+	padding-block: 2.75rem;
+	border-top: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+}
+
+@utility event-date {
+	display: block;
+	font-family: var(--font-mono);
+	font-size: 0.78rem;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+	color: var(--color-bronze);
+}
+
+/** Role under a name — mono, so it reads as a record rather than a subtitle. */
+@utility role {
+	font-family: var(--font-mono);
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	line-height: 1.45;
+	color: var(--color-moss);
+}
+
+/** One outbound reference: name, host, and an arrow — a hairline row, not a card. */
+@utility link-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.35rem 1.25rem;
+	padding-block: 1.15rem;
+	border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
+	transition: border-color 0.35s ease;
+
+	&:hover {
+		border-bottom-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+	}
+}
+
+/** Masked word, written by `splitWords`. Bottom padding + negative margin keeps descenders. */
+@utility word {
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: bottom;
+	padding-bottom: 0.14em;
+	margin-bottom: -0.14em;
+}
+
+@utility word-i {
+	display: inline-block;
+}
+
+/**
+ * A photograph in a fixed frame — positioned, so a scrim or a monogram can sit on it.
+ * Rounded on the top edge only, so it meets the card body without a seam.
+ */
+@utility photo-box {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+
+	& img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+}
+
+.group:hover .photo-box img,
+.photo-box:hover img {
+	transform: scale(1.04);
+}
+
+/**
+ * A photograph, left to speak for itself. No filter, no wash — the house identity comes
+ * from the frame (a hairline that warms toward gold on hover) and the type around it.
+ */
+@utility photo {
+	display: block;
+	width: 100%;
+	object-fit: cover;
+	border-radius: var(--radius-lg);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	transition: border-color 0.45s ease;
+}
+
+.group:hover .photo,
+.photo:hover {
+	border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+}
+
+/**
+ * A portrait card. The frame is cut to the portrait's own ratio (4:5 — what the roster
+ * actually uploads) instead of a fixed height, so the grid cannot crop someone's head off.
+ * The name is burned into the foot of the image over a black wash: white type on a
+ * photograph we did not shoot is otherwise a lottery.
+ */
+@utility face {
+	position: relative;
+	overflow: hidden;
+	background: var(--color-paper);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border-radius: var(--radius-xl);
+	box-shadow:
+		0 1px 2px rgb(0 0 0 / 40%),
+		0 18px 40px -26px rgb(0 0 0 / 85%);
+	transition:
+		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+		border-color 0.45s ease,
+		box-shadow 0.45s ease;
+
+	& img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* Faces sit high in these frames; anchoring near the top keeps heads in shot. */
+		object-position: center 24%;
+		transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	&:hover {
+		transform: translateY(-6px);
+		border-color: color-mix(in oklab, var(--color-gold) 50%, transparent);
+		box-shadow:
+			0 1px 2px rgb(0 0 0 / 40%),
+			0 26px 50px -26px rgb(0 0 0 / 90%);
+	}
+}
+
+.face:hover img {
+	transform: scale(1.045);
+}
+
+/** Black wash rising from the base of a portrait, so the name stays legible. */
+@utility face-scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to top,
+		rgb(0 0 0 / 0.95) 0%,
+		rgb(0 0 0 / 0.88) 14%,
+		rgb(0 0 0 / 0.6) 32%,
+		rgb(0 0 0 / 0.22) 52%,
+		transparent 72%
+	);
+}
+
+/** Name and role, sitting in the scrim at the foot of the portrait. */
+@utility face-meta {
+	position: absolute;
+	inset: auto 0 0 0;
+	padding: 1rem 1.15rem 1.15rem;
+}
+
+/**
+ * A person's own links, held back until the card is hovered or focused so the portrait
+ * stays the subject. Touch devices have no hover to give, so there they are simply shown.
+ */
+@utility face-links {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	opacity: 0;
+	transform: translateY(0.3rem);
+	transition:
+		opacity 0.35s ease,
+		transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.face:hover .face-links,
+.face:focus-within .face-links {
+	opacity: 1;
+	transform: none;
+}
+
+@media (hover: none) {
+	.face-links {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/** One mark. Gold plate on hover, so the row reads as a set of buttons, not decoration. */
+@utility face-link {
+	display: grid;
+	place-items: center;
+	width: 1.85rem;
+	height: 1.85rem;
+	border-radius: 0.5rem;
+	border: 1px solid color-mix(in oklab, var(--color-parchment) 24%, transparent);
+	background: rgb(0 0 0 / 38%);
+	color: var(--color-parchment);
+	backdrop-filter: blur(5px);
+	transition:
+		background-color 0.25s ease,
+		border-color 0.25s ease,
+		color 0.25s ease,
+		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+
+	&:hover {
+		background: var(--color-gold);
+		border-color: var(--color-gold);
+		color: var(--color-abyss);
+		transform: translateY(-2px);
+	}
+}
+
+/** Oversized initial over a card's photograph — the card's identity, not a stock photo. */
+@utility monogram {
+	position: absolute;
+	right: 1rem;
+	bottom: 0.1rem;
+	z-index: 1;
+	font-family: var(--font-display);
+	font-variation-settings:
+		'SOFT' 24,
+		'WONK' 1;
+	font-size: clamp(3.75rem, 8vw, 5.5rem);
+	line-height: 0.82;
+	font-weight: 600;
+	color: color-mix(in oklab, var(--color-gold) 88%, transparent);
+	text-shadow: 0 8px 26px rgb(0 0 0 / 60%);
+	transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .monogram {
+	transform: translateY(-5px);
+}
+
+/** Card body: paper, gold hairline on hover, a lift you can feel. */
+@utility pennant {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background: var(--color-paper);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border-radius: var(--radius-xl);
+	box-shadow:
+		0 1px 2px color-mix(in oklab, var(--color-night) 6%, transparent),
+		0 10px 28px -20px color-mix(in oklab, var(--color-night) 45%, transparent);
+	transition:
+		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+		box-shadow 0.45s ease,
+		border-color 0.45s ease;
+
+	&:hover {
+		transform: translateY(-6px);
+		border-color: color-mix(in oklab, var(--color-gold) 50%, transparent);
+		box-shadow:
+			0 1px 2px color-mix(in oklab, var(--color-night) 8%, transparent),
+			0 28px 54px -32px color-mix(in oklab, var(--color-night) 75%, transparent);
+	}
+}
+
+/** Scroll progress bar, pinned under the site head. */
+@utility progress-rail {
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 2px;
+	transform-origin: left center;
+	background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light));
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------------- motion hooks */
+
+/*
+ * Reveal targets start hidden only when the motion flag is set in app.html. Without JS,
+ * or with reduced motion, everything renders in its final state.
+ */
+html.motion [data-reveal] {
+	opacity: 0;
+}
+
+/*
+ * Rules stay opaque and collapse along X only. Written as `transform` (not the `scale`
+ * property) so GSAP drives the same channel and there is no double transform.
+ */
+html.motion [data-reveal='rule'] {
+	opacity: 1;
+	transform: scaleX(0);
+	transform-origin: left center;
+}
+
+/* Hero load sequence — same gate, same reasoning. */
+html.motion [data-intro~='rise'] {
+	transform: translateY(112%);
+}
+
+html.motion [data-intro~='soft'] {
+	opacity: 0;
+}
+
+html.motion [data-intro-rule] {
+	transform: scaleX(0);
+	transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
 }

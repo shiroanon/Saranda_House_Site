@@ -2,53 +2,65 @@
 	import { quickLinks, contacts, socials, usefulLinks, assets } from '#lib/data/site.ts';
 </script>
 
-<footer class="mt-16 bg-neutral-dark px-8 pt-9 text-neutral-light">
-	<div
-		class="mx-auto flex max-w-[120ch] flex-wrap justify-between gap-8 [&_a]:block [&_h3]:mb-4 [&_ul]:mb-8"
-	>
+<footer class="mt-20 bg-night text-parchment">
+	<!-- Ribbon fringe: the same dashed gold edge that caps the banner bands. -->
+	<div class="band-rule h-px w-full"></div>
+
+	<div class="shell grid gap-12 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
 		<div>
-			<h3>Contacts</h3>
-			<ul>
+			<div class="flex items-center gap-3">
+				<img src={assets.logo} alt="Saranda crest" width="52" height="52" class="rounded-full" />
+				<div>
+					<p class="display-face text-2xl leading-none font-semibold">Saranda</p>
+					<p class="eyebrow mt-1.5 text-gold">House of Excellence</p>
+				</div>
+			</div>
+
+			<p class="eyebrow mt-9 mb-3 text-gold">Contact</p>
+			<ul class="space-y-1.5 text-sm">
 				{#each contacts as c (c.href)}
-					<li><a href={c.href} target="_blank" rel="noreferrer">{c.text}</a></li>
+					<li>
+						<a href={c.href} class="footer-link break-all">{c.text}</a>
+					</li>
 				{/each}
 			</ul>
-			<div class="mb-6 flex flex-wrap gap-4">
+
+			<ul class="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm">
 				{#each socials as s (s.href)}
-					<a href={s.href} target="_blank" rel="noreferrer" class="text-sm hover:text-secondary">
-						{s.text}
-					</a>
+					<li><a href={s.href} target="_blank" rel="noreferrer" class="footer-link">{s.text}</a></li>
 				{/each}
-			</div>
-			<div class="flex flex-wrap gap-4">
-				<a href="/"><img src={assets.logo} alt="Saranda Logo" width="64" height="64" /></a>
-				<a href="https://study.iitm.ac.in/" target="_blank" rel="noreferrer">
-					<img src={assets.iitmLogo} alt="IITM Logo" width="64" height="64" />
-				</a>
-			</div>
+			</ul>
+
+			<a href="https://study.iitm.ac.in/" target="_blank" rel="noreferrer" class="mt-8 inline-block">
+				<img src={assets.iitmLogo} alt="IIT Madras BS" width="58" height="58" />
+			</a>
 		</div>
 
 		<div>
-			<h3>Quick Links</h3>
-			<ul>
+			<p class="eyebrow mb-4 text-gold">Quick links</p>
+			<ul class="space-y-2 text-sm">
 				{#each quickLinks as l (l.href)}
-					<li><a href={l.href}>{l.text}</a></li>
+					<li><a href={l.href} class="footer-link">{l.text}</a></li>
 				{/each}
 			</ul>
 		</div>
 
 		<div>
-			<h3>Other Useful Links</h3>
-			<ul>
+			<p class="eyebrow mb-4 text-gold">Useful documents</p>
+			<ul class="space-y-2 text-sm">
 				{#each usefulLinks as l (l.title + l.url)}
 					<li>
-						<a href={l.url} target="_blank" rel="noreferrer">{l.title}</a>
+						<a href={l.url} target="_blank" rel="noreferrer" class="footer-link">
+							{l.title} <span aria-hidden="true" class="opacity-60">↗</span>
+						</a>
 					</li>
 				{/each}
 			</ul>
 		</div>
 	</div>
-	<p class="mx-[-2rem] mt-4 text-center text-sm">
-		© {new Date().getFullYear()} Saranda WebOps Team · All Rights Reserved
+
+	<div class="band-rule h-px w-full"></div>
+	<p class="shell py-5 text-center font-mono text-[0.72rem] tracking-wider text-parchment/60">
+		© {new Date().getFullYear()} Saranda WebOps Team · All rights reserved
 	</p>
 </footer>

@@ -4,6 +4,38 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!--
+			Normal styles only. Asking for italics as well doubled the Fraunces and Hanken
+			payload (~250 kB) for text the site never sets. The four Fraunces axes are kept
+			because the display face relies on SOFT and WONK, not just weight.
+		-->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Fraunces:SOFT,WONK,opsz,wght@0..100,0..1,9..144,300..900&family=Hanken+Grotesk:wght@300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+		/>
+
+		<!--
+			Motion gate. Reveal animations start from a hidden state, so we flag the document
+			before first paint (no flash). `lib/motion.ts` sets window.__gsapBooted on load;
+			if that never happens the flag is dropped again so no-JS readers still see the page.
+		-->
+		<script>
+			(function () {
+				try {
+					if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+					document.documentElement.classList.add('motion');
+					setTimeout(function () {
+						if (!window.__gsapBooted) document.documentElement.classList.remove('motion');
+					}, 2500);
+				} catch (e) {
+					/* matchMedia unavailable — leave the flag off and render statically */
+				}
+			})();
+		</script>
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

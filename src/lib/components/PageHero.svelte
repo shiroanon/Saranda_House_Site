@@ -1,31 +1,52 @@
 <script lang="ts">
+	import { assets } from '#lib/data/site.ts';
+	import { intro } from '#lib/motion.ts';
 	import type { Snippet } from 'svelte';
 
 	let {
 		title,
 		subtitle = '',
-		image = '/media/site/mist_forest1.25b52791.webp',
+		kicker = '',
+		image = assets.mist1,
 		children
 	}: {
 		title: string;
 		subtitle?: string;
+		/** Small mono label above the title — what kind of page this is. */
+		kicker?: string;
 		image?: string;
 		children?: Snippet;
 	} = $props();
 </script>
 
-<section class="relative isolate overflow-hidden">
-	<img src={image} alt="" class="absolute inset-0 -z-10 h-full w-full object-cover opacity-60" />
-	<div class="absolute inset-0 -z-10 bg-neutral-light/40"></div>
-	<div class="mx-auto max-w-[120ch] px-5 py-16 text-center">
-		<h1 class="text-4xl font-bold tracking-tight text-primary drop-shadow-sm md:text-5xl">
-			{title}
-		</h1>
-		{#if subtitle}
-			<p class="mx-auto mt-3 max-w-[70ch] text-lg text-primary-darker/90">{subtitle}</p>
+<section class="page-hero" use:intro>
+	<img src={image} alt="" class="hero-art" />
+	<div class="hero-scrim"></div>
+
+	<div class="shell pt-16 pb-14 md:pt-20 md:pb-16">
+		{#if kicker}
+			<p class="eyebrow text-gold" data-intro="soft">{kicker}</p>
 		{/if}
+
+		<h1
+			class="display-face mt-4 text-headline leading-[1.02] font-semibold text-parchment"
+		>
+			<span class="block overflow-hidden pb-[0.1em]">
+				<span class="block" data-intro="rise">{title}</span>
+			</span>
+		</h1>
+
+		<div class="mt-6 flex items-center gap-3 text-gold">
+			<span class="rule-line" data-intro-rule></span>
+			<span class="rule-dot"></span>
+		</div>
+
+		{#if subtitle}
+			<p class="mt-5 max-w-[46ch] text-lg text-parchment/85" data-intro="soft">{subtitle}</p>
+		{/if}
+
 		{#if children}
-			<div class="mt-5">{@render children()}</div>
+			<div class="mt-7" data-intro="soft">{@render children()}</div>
 		{/if}
 	</div>
 </section>
