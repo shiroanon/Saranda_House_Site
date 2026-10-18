@@ -7,12 +7,21 @@
 
 	let { data }: PageProps = $props();
 
-	/** Blurbs are authored with blank lines between paragraphs. */
-	const paragraphs = (blurb: string) =>
+	/**
+	 * Blurbs are authored with real line breaks: a blank line starts a new paragraph, and
+	 * single lines inside one paragraph are list items. Keep that shape rather than
+	 * collapsing the May edition's three bullets into a single run-on paragraph.
+	 */
+	const blocks = (blurb: string) =>
 		blurb
 			.split(/\n{2,}/)
-			.map((p) => p.trim())
-			.filter(Boolean);
+			.map((block) =>
+				block
+					.split('\n')
+					.map((line) => line.trim())
+					.filter(Boolean)
+			)
+			.filter((lines) => lines.length > 0);
 </script>
 
 <svelte:head>
@@ -50,9 +59,13 @@
 						</h2>
 
 						{#if edition.blurb}
-							<div class="mt-4 flex max-w-[68ch] flex-col gap-3.5 text-parchment/75">
-								{#each paragraphs(edition.blurb) as paragraph, p (p)}
-									<p class="leading-relaxed">{paragraph}</p>
+							<div class="mt-4 flex max-w-[68ch] flex-col gap-4 text-parchment/75">
+								{#each blocks(edition.blurb) as lines, b (b)}
+									<div class="flex flex-col gap-1">
+										{#each lines as line, l (l)}
+											<p class="leading-relaxed">{line}</p>
+										{/each}
+									</div>
 								{/each}
 							</div>
 						{/if}

@@ -39,19 +39,28 @@
 			: `${person.name} on ${{ instagram: 'Instagram', linkedin: 'LinkedIn', github: 'GitHub' }[kind]}`;
 </script>
 
-<article class="face group aspect-[4/5]" data-reveal>
+<article
+	class="face group aspect-[4/5] {person.vacant ? 'face-open' : ''}"
+	data-reveal
+>
 	{#if person.photo}
 		<img src={person.photo} alt={person.name} loading="lazy" decoding="async" />
 	{:else}
-		<img src={assets.placeholder} alt="" />
+		<img src={assets.placeholder} alt={person.vacant ? '' : person.name} />
 	{/if}
 
 	<div class="face-scrim" aria-hidden="true"></div>
 
 	<div class="face-meta">
-		<h3 class="display-face {nameSize} leading-tight font-semibold text-parchment">
-			{person.name}
-		</h3>
+		{#if person.vacant}
+			<h3 class="display-face {nameSize} leading-tight font-semibold text-parchment/45 italic">
+				Vacant
+			</h3>
+		{:else}
+			<h3 class="display-face {nameSize} leading-tight font-semibold text-parchment">
+				{person.name}
+			</h3>
+		{/if}
 
 		<div class="mt-2.5 flex flex-wrap items-end justify-between gap-x-3 gap-y-2.5">
 			<div class="min-w-0">

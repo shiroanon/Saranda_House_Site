@@ -5,31 +5,33 @@
 /*
  * Saranda house design system.
  *
- * The palette is the house's own: forest green and gold, taken from the original
- * saranda.iitmbs.org. The ground is deep night-green everywhere — parchment is text,
- * not paper. Type does the rest: a carved Fraunces display face (WONK on) for house
- * voice, Hanken Grotesk for reading, IBM Plex Mono for anything that is genuinely data:
- * dates, cities, roles, counts, section labels.
+ * The palette is the house's own: the crest's gold, and the paper-white of a certificate.
+ * The ground is black — abyss at the masthead easing into a near-black grey at the foot of
+ * the page — so nothing on the site is tinted green. Parchment is text, not paper. Type
+ * does the rest: a carved Fraunces display face (WONK on) for house voice, Hanken Grotesk
+ * for reading, IBM Plex Mono for anything that is genuinely data: dates, cities, roles,
+ * counts, section labels.
  *
  * Colour roles, so nothing lands on the wrong ground:
- *   night      → the page itself
+ *   abyss      → the top of the page, and the chrome over it
+ *   night      → a neutral near-black, one step off the abyss
  *   paper      → a card lifted one step off the page
- *   green      → a band, one step above that
+ *   green      → a band, one step above that (the name is historical; the value is grey)
  *   parchment  → body text (12.6:1 on night)
- *   moss       → captions and meta (7.4:1 on night)
+ *   moss       → captions and meta (7.0:1 on night)
  *   bronze     → the gold "ink" for small accent text (6.8:1 on night)
  *   gold       → accents and hairlines; as text it needs night behind it
  */
 @theme {
 	--color-abyss: #000000;
-	--color-night: #071310;
-	--color-green: #16331f;
-	--color-moss: #9db894;
+	--color-night: #08090a;
+	--color-green: #17191b;
+	--color-moss: #9ca6a0;
 	--color-gold: #e4b033;
 	--color-gold-light: #f2cd6d;
 	--color-bronze: #d9a24a;
 	--color-parchment: #ece6d0;
-	--color-paper: #0f2219;
+	--color-paper: #0e1011;
 
 	--font-display: 'Fraunces', ui-serif, Georgia, serif;
 	--font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
@@ -136,21 +138,60 @@
 
 /* ---------------------------------------------------------------- primitives */
 
-/** Sticky house bar. Lifts slightly once the page has scrolled. */
+/**
+ * Sticky house bar.
+ *
+ * Not a plate with a rule under it — a black gradient that feathers to nothing. A hard
+ * bottom edge is the one thing that cannot survive on a page whose ground is already
+ * black, so the bar fades out over its own height plus a little more, and the blur that
+ * frosts the content passing underneath is masked by the same fade. With no border and
+ * no shadow there is no line for the eye to catch: the header just gets darker.
+ */
 @utility site-head {
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	background: color-mix(in oklab, var(--color-night) 88%, transparent);
-	backdrop-filter: blur(10px);
-	border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
-	transition:
-		background-color 0.3s ease,
-		box-shadow 0.3s ease;
 
-	&.lifted {
-		background: color-mix(in oklab, var(--color-night) 96%, transparent);
-		box-shadow: 0 12px 32px -24px rgb(0 0 0 / 0.9);
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 -2.5rem 0;
+		z-index: -1;
+		pointer-events: none;
+		background: linear-gradient(
+			to bottom,
+			rgb(0 0 0 / 0.96) 0%,
+			rgb(0 0 0 / 0.88) 46%,
+			rgb(0 0 0 / 0.58) 70%,
+			transparent 100%
+		);
+		backdrop-filter: blur(14px);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			#000 0%,
+			#000 76%,
+			rgb(0 0 0 / 0.55) 90%,
+			transparent 100%
+		);
+		mask-image: linear-gradient(
+			to bottom,
+			#000 0%,
+			#000 76%,
+			rgb(0 0 0 / 0.55) 90%,
+			transparent 100%
+		);
+	}
+
+	/* Once the page moves the bar holds a touch more ink, so links stay legible over
+	   whatever is sliding beneath them. */
+	&.lifted::before {
+		background: linear-gradient(
+			to bottom,
+			rgb(0 0 0 / 0.99) 0%,
+			rgb(0 0 0 / 0.95) 46%,
+			rgb(0 0 0 / 0.68) 70%,
+			transparent 100%
+		);
 	}
 }
 
@@ -199,10 +240,10 @@
 	margin-top: 0.5rem;
 	min-width: 11rem;
 	padding: 0.35rem;
-	background: var(--color-paper);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	background: #050706;
+	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
 	border-radius: var(--radius-lg);
-	box-shadow: 0 18px 40px -24px rgb(0 0 0 / 60%);
+	box-shadow: 0 18px 40px -24px rgb(0 0 0 / 85%);
 
 	& a {
 		display: block;
@@ -737,6 +778,23 @@
 	transform: scale(1.045);
 }
 
+/**
+ * An unheld post. A dashed hairline and a ghosted placeholder portrait read as an open
+ * slot rather than as somebody whose photograph failed to load.
+ */
+@utility face-open {
+	border-style: dashed;
+	border-color: color-mix(in oklab, var(--color-gold) 34%, transparent);
+
+	& img {
+		opacity: 0.35;
+	}
+
+	&:hover {
+		border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+	}
+}
+
 /** Black wash rising from the base of a portrait, so the name stays legible. */
 @utility face-scrim {
 	position: absolute;
@@ -809,6 +867,147 @@
 		color: var(--color-abyss);
 		transform: translateY(-2px);
 	}
+}
+
+/**
+ * A community card. Image-led like a portrait card: the photograph is the ground, the
+ * type sits in a black wash at the foot, and hovering lifts the whole plate.
+ */
+@utility community {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	isolation: isolate;
+	overflow: hidden;
+	border-radius: var(--radius-xl);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	background: var(--color-paper);
+	box-shadow: 0 18px 40px -30px rgb(0 0 0 / 90%);
+	transition:
+		transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+		border-color 0.45s ease,
+		box-shadow 0.5s ease;
+
+	& img {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	&:hover {
+		transform: translateY(-6px);
+		border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+		box-shadow: 0 28px 55px -30px rgb(0 0 0 / 95%);
+	}
+}
+
+.community:hover img {
+	transform: scale(1.055);
+}
+
+/** Black wash deep enough to carry three lines of copy over a photograph we did not shoot. */
+@utility community-scrim {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(
+		to top,
+		rgb(0 0 0 / 0.95) 0%,
+		rgb(0 0 0 / 0.9) 32%,
+		rgb(0 0 0 / 0.55) 60%,
+		rgb(0 0 0 / 0.12) 82%,
+		transparent 100%
+	);
+}
+
+/**
+ * A gallery tile. Squares in a grid, with one feature tile spanning two cells. The index
+ * and place name sit in a thin wash at the foot; hovering lifts the tile and the caption.
+ */
+@utility tile {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	background: var(--color-paper);
+	transition:
+		transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+		border-color 0.45s ease;
+
+	& img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	&:hover {
+		transform: translateY(-4px);
+		border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+	}
+}
+
+.tile:hover img {
+	transform: scale(1.07);
+}
+
+@utility tile-scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to top,
+		rgb(0 0 0 / 0.88) 0%,
+		rgb(0 0 0 / 0.5) 22%,
+		transparent 52%
+	);
+}
+
+@utility tile-meta {
+	position: absolute;
+	inset: auto 0 0 0;
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.85rem 0.95rem;
+}
+
+/** The tile's number, in mono — it is real data about the set, so it reads like a record. */
+@utility tile-index {
+	font-family: var(--font-mono);
+	font-size: 0.66rem;
+	letter-spacing: 0.12em;
+	color: color-mix(in oklab, var(--color-gold) 80%, transparent);
+}
+
+@utility tile-label {
+	font-family: var(--font-display);
+	font-variation-settings:
+		'SOFT' 24,
+		'WONK' 1;
+	font-size: 1.02rem;
+	font-weight: 600;
+	color: var(--color-parchment);
+	text-transform: capitalize;
+	opacity: 0.88;
+	transform: translateY(0.25rem);
+	transition:
+		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+		opacity 0.4s ease;
+}
+
+.tile:hover .tile-label,
+.tile:focus-visible .tile-label {
+	opacity: 1;
+	transform: none;
 }
 
 /** Oversized initial over a card's photograph — the card's identity, not a stock photo. */

@@ -27,6 +27,12 @@ export type Person = {
 	name: string;
 	role: string;
 	photo?: string;
+	/**
+	 * A seat that exists but nobody holds yet. The live site carries the Web Admin post
+	 * with a `________` name and the placeholder portrait; this flag renders it as an open
+	 * position instead of inventing a person for it.
+	 */
+	vacant?: boolean;
 } & PersonLinks;
 
 /** The order the marks appear in on a card. */
@@ -60,6 +66,14 @@ export const upperCouncil: Person[] = [
 		photo: '/media/sanity/4a3bf0050e9e5c3e80fbad6fd4cefbea0e2fe402-3024x4032.webp',
 		mail: 'saranda-ds@ds.study.iitm.ac.in',
 		linkedin: 'hasnen-sheikh'
+	},
+	{
+		// The live site lists this post with a `________` name and the placeholder portrait.
+		// The seat is real, so it is shown — just honestly empty.
+		name: 'Web Admin',
+		role: 'Web Admin',
+		vacant: true,
+		mail: 'saranda-webad@ds.study.iitm.ac.in'
 	}
 ];
 

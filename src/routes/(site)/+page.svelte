@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { assets, siteName, siteTagline } from '#lib/data/site.ts';
 	import { communities } from '#lib/data/communities.ts';
-	import { counter, intro, parallax, refreshTriggers, reveal, splitWords } from '#lib/motion.ts';
+	import { gallery } from '#lib/data/gallery.ts';
+	import { intro, parallax, refreshTriggers, reveal, splitWords } from '#lib/motion.ts';
+	import CommunityCard from '#lib/components/CommunityCard.svelte';
 	import SectionHead from '#lib/components/SectionHead.svelte';
 	import type { PageProps } from './$types';
 
@@ -44,9 +46,17 @@
 	<div class="hero-veil"></div>
 
 	<div class="shell hero-copy">
-		<p class="eyebrow text-gold" data-intro="soft">IIT Madras BS · One of twelve houses</p>
+		<!-- The institute's own crest stands where a caption used to: the mark says it. -->
+		<img
+			src={assets.iitmLogo}
+			alt="IIT Madras"
+			width="72"
+			height="72"
+			class="crest h-16 w-16 rounded-full object-cover md:h-[4.5rem] md:w-[4.5rem]"
+			data-intro="soft"
+		/>
 
-		<h1 class="display-face mt-5 text-display leading-[0.9] font-semibold text-parchment">
+		<h1 class="display-face mt-6 text-display leading-[0.9] font-semibold text-parchment">
 			<span class="block overflow-hidden pt-[0.08em] pb-[0.16em]">
 				<span class="block" data-intro="rise">{siteName}</span>
 			</span>
@@ -96,82 +106,45 @@
 	</div>
 </section>
 
-<!-- ────────────────────────────────────────────────  the house across India -->
-<section class="band" use:reveal>
-	<div class="band-rule h-px w-full"></div>
+<!-- ────────────────────────────────────────────────────────────  gallery -->
+<!--
+	One photograph per meetup region, in a single grid with a feature tile spanning two
+	cells. The cell count (twelve) divides cleanly at two, three and four columns, so the
+	same markup stays square at every breakpoint.
+-->
+<section class="shell py-20 md:py-24" use:reveal>
+	<SectionHead label="From the house" count={`${data.totalMeetups} meetups on record`} />
 
-	<div class="shell py-16 md:py-20">
-		<div class="grid gap-12 md:grid-cols-[1.15fr_1fr] md:items-end">
-			<div class="max-w-[54ch]">
-				<p class="eyebrow text-gold" data-reveal>Across India</p>
-				<h2 class="display-face mt-4 text-headline leading-[1.06] font-semibold">
-					<span use:splitWords>A house that meets where its people already are</span>
-				</h2>
-				<p class="mt-5 text-parchment/80" data-reveal>
-					The BS degree is spread across the country, so Saranda is too — and every chapter keeps a
-					ledger of the evenings it has spent together.
-				</p>
-			</div>
-
-			<dl class="grid grid-cols-3 gap-4 border-t border-gold/25 pt-6 md:border-t-0 md:pt-0">
-				{#each ledger as stat (stat.label)}
-					<div data-reveal>
-						<dd class="display-face text-4xl leading-none font-semibold text-gold md:text-5xl">
-							<span use:counter>{stat.value}</span>
-						</dd>
-						<dt class="eyebrow mt-3 text-parchment/60">{stat.label}</dt>
-					</div>
-				{/each}
-			</dl>
-		</div>
-
-		<ul class="mt-12 flex flex-wrap gap-3 border-t border-gold/20 pt-10">
-			{#each data.regions as region (region.$id)}
-				<li data-reveal>
-					<a href={`/meetups/${region.city}`} class="region-chip">
-						{region.city}
-						<span>{data.counts[region.city] ?? 0}</span>
-					</a>
-				</li>
-			{/each}
-		</ul>
+	<div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+		{#each gallery as item, i (item.city)}
+			<a
+				href={`/meetups/${item.city}`}
+				class="tile group aspect-square {i === 0 ? 'col-span-2 row-span-2' : ''}"
+				data-reveal
+			>
+				<img src={item.src} alt="" loading="lazy" decoding="async" />
+				<span class="tile-scrim" aria-hidden="true"></span>
+				<span class="tile-meta">
+					<span class="tile-index">{String(i + 1).padStart(2, '0')}</span>
+					<span class="tile-label">{item.label}</span>
+				</span>
+			</a>
+		{/each}
 	</div>
 
-	<div class="band-rule h-px w-full"></div>
+	<div class="mt-9 flex flex-wrap gap-x-7 gap-y-3">
+		<a href="/meetups" class="text-link">Every meetup region</a>
+		<a href="/events" class="text-link">What the house has run</a>
+	</div>
 </section>
 
 <!-- ─────────────────────────────────────────────────────────────  communities -->
-<section class="shell py-20 md:py-24" use:reveal>
+<section class="shell pb-20 md:pb-24" use:reveal>
 	<SectionHead label="Communities" count={`${cards.length} to join`} />
 
-	<div class="grid gap-6 md:grid-cols-3">
-		{#each cards as c (c.slug)}
-			<a href={`/community/${c.slug}`} class="pennant group" data-reveal>
-				<div class="photo-box h-52">
-					{#if c.images.length}
-						<img src={c.images[0]} alt="" loading="lazy" />
-					{/if}
-					<span class="monogram" aria-hidden="true">{c.title.charAt(0)}</span>
-				</div>
-
-				<div class="flex grow flex-col p-6">
-					<h3 class="display-face text-[1.35rem] leading-tight font-semibold">{c.title}</h3>
-
-					<span
-						class="mt-3 block h-px w-10 bg-gold transition-all duration-500 group-hover:w-24"
-						aria-hidden="true"
-					></span>
-
-					<p class="mt-4 grow text-sm leading-relaxed text-primary/75 line-clamp-5">{c.intro}</p>
-
-					<span class="text-link mt-6 self-start">
-						Explore community
-						<span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1"
-							>→</span
-						>
-					</span>
-				</div>
-			</a>
+	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+		{#each cards as c, i (c.slug)}
+			<CommunityCard community={c} index={i} />
 		{/each}
 	</div>
 </section>
