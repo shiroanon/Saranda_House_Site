@@ -20,7 +20,7 @@
 					alt="Saranda crest"
 					width="52"
 					height="52"
-					class="rounded-full ring-1 ring-gold-light/25 crest"
+					class="crest-badge ring-1 ring-gold-light/25 crest"
 				/>
 				<div>
 					<p class="display-face text-2xl leading-none font-semibold">Saranda</p>

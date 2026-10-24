@@ -12,9 +12,9 @@
 </svelte:head>
 
 <div class="flex min-h-screen items-center justify-center px-5 py-16">
-	<div class="green-glass-container w-full max-w-md p-8">
+	<div class="w-full max-w-md green-glass-container p-8">
 		<div class="mb-6 flex items-center gap-3">
-			<img src={assets.logo} alt="" width="44" height="44" class="rounded-full" />
+			<img src={assets.logo} alt="" width="44" height="44" class="crest-badge crest" />
 			<div>
 				<h1 class="text-xl font-bold">Saranda Admin</h1>
 				<p class="text-sm opacity-70">Sign in to manage the site</p>
@@ -55,8 +55,8 @@
 		</form>
 
 		<p class="mt-5 text-xs opacity-70">
-			Accounts need the <code class="rounded bg-primary/10 px-1">admin</code> label in Appwrite →
-			Auth → Users.
+			Accounts need the <code class="rounded bg-primary/10 px-1">admin</code> label in Appwrite → Auth
+			→ Users.
 		</p>
 	</div>
 </div>

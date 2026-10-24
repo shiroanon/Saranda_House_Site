@@ -289,6 +289,18 @@
 	filter: drop-shadow(0 8px 18px color-mix(in oklab, var(--color-canopy) 28%, transparent));
 }
 
+/**
+ * The crest artwork is a square plate with its own near-black ground. A plain circular
+ * mask clips the plate's lower edge, so keep the badge round but fit the whole mark inside
+ * it: the plate scales into the padded content box and its own ground blends with the disc.
+ */
+@utility crest-badge {
+	border-radius: 9999px;
+	background: #07130f;
+	object-fit: contain;
+	padding: 0.25rem;
+}
+
 /** Links inside the dark footer: a gold underline wipes in on hover. */
 @utility footer-link {
 	color: color-mix(in oklab, var(--color-canopy-ink) 80%, transparent);

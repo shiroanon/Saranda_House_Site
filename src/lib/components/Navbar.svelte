@@ -27,7 +27,7 @@
 				alt={siteName}
 				width="64"
 				height="64"
-				class="h-16 w-16 rounded-full ring-1 ring-bark/35 crest"
+				class="h-12 w-12 crest-badge ring-1 ring-bark/35 crest sm:h-14 sm:w-14 md:h-16 md:w-16"
 			/>
 		</a>
 
