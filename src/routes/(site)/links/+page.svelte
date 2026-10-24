@@ -46,7 +46,8 @@
 <PageHero
 	title="Links"
 	kicker="Useful links"
-	subtitle="{data.links.length} references we keep coming back to — handbook, guidelines, and regional help."
+	subtitle="{data.links
+		.length} references we keep coming back to — handbook, guidelines, and regional help."
 	image={assets.woodPlank}
 />
 
@@ -57,25 +58,21 @@
 		<ul>
 			{#each links as link (link.$id)}
 				<li data-reveal>
-					<a
-						class="link-row group"
-						href={link.url}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
+					<a class="group link-row" href={link.url} target="_blank" rel="noopener noreferrer">
 						<span
-							class="display-face text-[1.35rem] leading-tight font-semibold underline-offset-[5px] group-hover:underline"
+							class="display-face text-[1.15rem] leading-tight font-semibold underline-offset-[5px] group-hover:underline sm:text-[1.35rem]"
 						>
 							{link.title}
 						</span>
 
 						{#if host(link.url)}
-							<span class="role grow">{host(link.url)}</span>
+							<span class="grow role">{host(link.url)}</span>
 						{/if}
 
 						<span class="text-link shrink-0">
-							Open <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1"
-								>→</span
+							Open <span
+								aria-hidden="true"
+								class="transition-transform duration-300 group-hover:translate-x-1">→</span
 							>
 							<span class="sr-only">(opens in a new tab)</span>
 						</span>

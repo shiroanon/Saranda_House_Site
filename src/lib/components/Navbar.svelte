@@ -22,7 +22,13 @@
 	<nav class="shell flex items-center justify-between gap-6 py-3.5">
 		<!-- The crest alone is the wordmark: it already carries the name in its ring. -->
 		<a href="/" class="group flex items-center" onclick={() => (mobileOpen = false)}>
-			<img src={assets.logo} alt={siteName} width="56" height="56" class="crest rounded-full" />
+			<img
+				src={assets.logo}
+				alt={siteName}
+				width="64"
+				height="64"
+				class="h-16 w-16 rounded-full ring-1 ring-bark/35 crest"
+			/>
 		</a>
 
 		<!-- Desktop -->
@@ -86,7 +92,7 @@
 
 	<!-- Mobile -->
 	{#if mobileOpen}
-		<ul class="border-t border-primary/10 bg-paper px-5 pb-4 md:hidden">
+		<ul class="border-t border-bark/25 bg-paper/95 px-5 pb-4 backdrop-blur md:hidden">
 			{#each nav as item (item.href)}
 				<li>
 					<a

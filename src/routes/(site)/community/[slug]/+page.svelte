@@ -27,14 +27,14 @@
 </PageHero>
 
 {#if data.community.events.length}
-	<section class="shell pt-14 pb-16 md:pt-16" use:reveal>
+	<section class="shell pt-10 pb-14 md:pt-16" use:reveal>
 		<SectionHead label="What we run" count={`${data.community.events.length}`} />
 
 		<div class="flex flex-col">
 			{#each data.community.events as event, i (event.name)}
 				<article class="border-t border-primary/12 py-8 first:border-t-0 first:pt-0" data-reveal>
 					<div class="grid gap-3 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-8">
-						<span class="role pt-1 md:text-right" aria-hidden="true">
+						<span class="pt-1 role md:text-right" aria-hidden="true">
 							{String(i + 1).padStart(2, '0')}
 						</span>
 						<div class="min-w-0">
@@ -51,7 +51,7 @@
 {/if}
 
 {#if data.community.images.length}
-	<section class="band py-16" use:reveal>
+	<section class="band py-12 md:py-16" use:reveal>
 		<div class="shell">
 			<SectionHead label="From the gallery" count={`${data.community.images.length}`} />
 

@@ -33,7 +33,7 @@
 	<a href="/meetups" class="btn-ghost">‹ All regions</a>
 </PageHero>
 
-<section class="shell pt-12 pb-16 md:pt-14" use:reveal>
+<section class="shell pt-10 pb-14 md:pt-14" use:reveal>
 	{#if data.events.length === 0}
 		<p class="card p-8 text-center opacity-80">No meetups recorded for this region yet.</p>
 	{/if}
@@ -69,7 +69,7 @@
 								{src}
 								alt={`${event.name} photo`}
 								loading="lazy"
-								class="album-photo h-auto w-full rounded-lg"
+								class="h-auto w-full rounded-lg album-photo"
 							/>
 						{/each}
 					</div>

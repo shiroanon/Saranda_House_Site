@@ -4,18 +4,20 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
+		<meta name="theme-color" content="#f4f1e4" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<!--
-			Normal styles only. Asking for italics as well doubled the Fraunces and Hanken
-			payload (~250 kB) for text the site never sets. The four Fraunces axes are kept
-			because the display face relies on SOFT and WONK, not just weight. Slackey is the
-			house wordmark only — a single heavy weight, no italic, so the request stays small.
+			Three text faces, one brand mark. Newsreader carries the house voice — its optical
+			sizing keeps display type elegant and small headings sturdy — Manrope reads, and
+			DM Mono holds dates, cities, roles and counts. Italics are requested only for
+			Newsreader, the one face the site actually sets in italic. Slackey is the wordmark
+			only: a single heavy weight with no italic, so the request stays small.
 		-->
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Slackey&family=Fraunces:SOFT,WONK,opsz,wght@0..100,0..1,9..144,300..900&family=Hanken+Grotesk:wght@300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+			href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Slackey&display=swap"
 		/>
 
 		<!--

@@ -21,7 +21,11 @@
 	} = $props();
 
 	const nameSize = $derived(
-		size === 'lg' ? 'text-[1.6rem]' : size === 'sm' ? 'text-lg' : 'text-xl'
+		size === 'lg'
+			? 'text-[1.4rem] sm:text-[1.6rem]'
+			: size === 'sm'
+				? 'text-base sm:text-lg'
+				: 'text-lg sm:text-xl'
 	);
 
 	/** Only the marks this person actually has, in house order. */
@@ -39,10 +43,7 @@
 			: `${person.name} on ${{ instagram: 'Instagram', linkedin: 'LinkedIn', github: 'GitHub' }[kind]}`;
 </script>
 
-<article
-	class="face group aspect-[4/5] {person.vacant ? 'face-open' : ''}"
-	data-reveal
->
+<article class="group face aspect-[4/5] {person.vacant ? 'face-open' : ''}" data-reveal>
 	{#if person.photo}
 		<img
 			src={person.photo}
@@ -59,11 +60,11 @@
 
 	<div class="face-meta">
 		{#if person.vacant}
-			<h3 class="display-face {nameSize} leading-tight font-semibold text-parchment/45 italic">
+			<h3 class="display-face {nameSize} leading-tight font-semibold text-canopy-ink/85 italic">
 				Vacant
 			</h3>
 		{:else}
-			<h3 class="display-face {nameSize} leading-tight font-semibold text-parchment">
+			<h3 class="display-face {nameSize} leading-tight font-semibold text-canopy-ink">
 				{person.name}
 			</h3>
 		{/if}
@@ -71,10 +72,10 @@
 		<div class="mt-2.5 flex flex-wrap items-end justify-between gap-x-3 gap-y-2.5">
 			<div class="min-w-0">
 				<span
-					class="mb-2.5 block h-px w-8 bg-gold transition-all duration-500 group-hover:w-16"
+					class="mb-2.5 block h-px w-8 bg-gold-light transition-all duration-500 group-hover:w-16"
 					aria-hidden="true"
 				></span>
-				<p class="font-mono text-[0.72rem] tracking-[0.08em] text-moss">{person.role}</p>
+				<p class="font-mono text-[0.72rem] tracking-[0.08em] text-canopy-ink/75">{person.role}</p>
 			</div>
 
 			{#if links.length}

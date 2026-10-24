@@ -3,69 +3,79 @@
 @plugin '@tailwindcss/typography';
 
 /*
- * Saranda house design system.
+ * Saranda house design system — "misty morning in the house forest".
  *
- * The palette is the house's own: the crest's gold, and the paper-white of a certificate.
- * The ground is black — abyss at the masthead easing into a near-black grey at the foot of
- * the page — so nothing on the site is tinted green. Parchment is text, not paper. Type
- * does the rest: a carved Fraunces display face (WONK on) for house voice, Hanken Grotesk
- * for reading, IBM Plex Mono for anything that is genuinely data: dates, cities, roles,
- * counts, section labels.
+ * The page is a forest at first light: warm mist for the ground, deep pine for the ink,
+ * fern for the bands, bark for the frames, and one narrow shaft of sunlight (gold) used
+ * only where it lands as an accent. Photography carries its own darkness — portraits and
+ * community plates are washed in deep canopy green — so captions on pictures stay cream
+ * while the page around them stays bright.
+ *
+ * Type does the rest: Newsreader's optical serif for house voice, Manrope for reading,
+ * DM Mono for anything that is genuinely data: dates, cities, roles, counts, section
+ * labels. Slackey stays the wordmark, so the crest keeps its sign-painter's voice.
  *
  * Colour roles, so nothing lands on the wrong ground:
- *   abyss      → the top of the page, and the chrome over it
- *   night      → a neutral near-black, one step off the abyss
- *   paper      → a card lifted one step off the page
- *   green      → a band, one step above that (the name is historical; the value is grey)
- *   parchment  → body text (12.6:1 on night)
- *   moss       → captions and meta (7.0:1 on night)
- *   bronze     → the gold "ink" for small accent text (6.8:1 on night)
- *   gold       → accents and hairlines; as text it needs night behind it
+ *   abyss        → the page ground: morning mist
+ *   night        → a raised neutral, one step off the mist (nav tint, panels)
+ *   paper        → a card lifted one step off the page
+ *   green        → a fern band
+ *   parchment    → body text (forest ink; 12:1 on mist)
+ *   moss         → captions and meta (5.7:1 on mist)
+ *   leaf         → interactive accent: links, buttons, active nav (7:1 on mist)
+ *   bark         → hairlines and frames
+ *   gold / bronze→ small accents, sunlight, and ornament
+ *   canopy       → the dark wash under a photograph
+ *   canopy-ink   → text that sits in that wash
  */
 @theme {
-	--color-abyss: #000000;
-	--color-night: #08090a;
-	--color-green: #17191b;
-	--color-moss: #9ca6a0;
-	--color-gold: #e4b033;
-	--color-gold-light: #f2cd6d;
-	--color-bronze: #d9a24a;
-	--color-parchment: #ece6d0;
-	--color-paper: #0e1011;
+	--color-abyss: #f4f1e4;
+	--color-night: #e7eadc;
+	--color-green: #dbe5d2;
+	--color-moss: #4a6453;
+	--color-leaf: #2f5d3a;
+	--color-leaf-light: #3f7a4c;
+	--color-bark: #8a6a4b;
+	--color-gold: #8a5f14;
+	--color-gold-light: #b98a2f;
+	--color-bronze: #7d5a1c;
+	--color-parchment: #1e3327;
+	--color-paper: #fbf9ef;
+	--color-canopy: #0c2418;
+	--color-canopy-ink: #f4f1e4;
 
-	--font-display: 'Fraunces', ui-serif, Georgia, serif;
-	--font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
-	--font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
-	--font-slackey: 'Slackey', 'Fraunces', ui-serif, Georgia, serif;
+	--font-display: 'Newsreader', ui-serif, Georgia, serif;
+	--font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'DM Mono', ui-monospace, SFMono-Regular, monospace;
+	--font-slackey: 'Slackey', 'Newsreader', ui-serif, Georgia, serif;
 
-	--text-display: clamp(2.9rem, 9.5vw, 7rem);
-	--text-headline: clamp(1.9rem, 4.6vw, 3.1rem);
-	--text-title: clamp(1.35rem, 2.4vw, 1.75rem);
+	--text-display: clamp(2.4rem, 9.5vw, 7rem);
+	--text-headline: clamp(1.7rem, 4.6vw, 3.1rem);
+	--text-title: clamp(1.25rem, 2.4vw, 1.75rem);
 	--leading-display: 0.92;
 
 	/*
 	 * Back-compat aliases. Admin screens and the older components use these names, so they
 	 * are retuned rather than renamed — every existing `text-secondary-darker` link and
-	 * `green-glass-container` panel picks up the dark ground and corrected contrast for
-	 * free. `primary` is now the light text colour, which is what the markup expects.
+	 * `green-glass-container` panel picks up the forest palette for free.
 	 */
-	--color-primary: #ece6d0;
-	--color-primary-lighter: #17191b;
-	--color-primary-darker: #08090a;
+	--color-primary: #1e3327;
+	--color-primary-lighter: #eef0e4;
+	/* Legacy: used as the label on a leaf-green button. */
+	--color-primary-darker: #f7f4e8;
 
-	--color-secondary: #e4b033;
-	--color-secondary-ligher: #f2cd6d;
-	--color-secondary-darker: #d9a24a;
+	--color-secondary: #2f5d3a;
+	--color-secondary-ligher: #3f7a4c;
+	--color-secondary-darker: #7d5a1c;
 
-	--color-neutral-light: #16191a;
-	--color-neutral-light-lighter: #1c1f21;
-	--color-neutral-light-darker: #0b0d0e;
+	--color-neutral-light: #e7eadc;
+	--color-neutral-light-lighter: #f7f5ea;
+	--color-neutral-light-darker: #d5ddc7;
 
-	/* Unused by the markup today, kept so older panels still resolve. */
-	--color-neutral-dark: #ece6d0;
-	--color-neutral-dark-lighter: #f4efdd;
-	--color-neutral-dark-darker: #9ca6a0;
-	--color-neutral-dark-glass: rgb(18 20 21 / 0.85);
+	--color-neutral-dark: #1e3327;
+	--color-neutral-dark-lighter: #2c4436;
+	--color-neutral-dark-darker: #4a6453;
+	--color-neutral-dark-glass: rgb(255 255 255 / 0.78);
 
 	--animate-heroslideup: heroslideup 1s cubic-bezier(0.26, 1, 0.61, 1) 1;
 
@@ -84,21 +94,27 @@
 @layer base {
 	html {
 		scroll-behavior: smooth;
+		color-scheme: light;
 		min-height: 100%;
 		/*
-		 * The house ground. Black at the masthead, easing down to a near-black grey at the
-		 * foot of the page — so the page reads as night, and nothing on it is tinted green.
+		 * The house ground: morning mist, warmed by a low sun in the top-right and cooled
+		 * into the fern at the foot of the page. A fine grain keeps it from reading as flat
+		 * paper — the texture is the forest floor, not a tint.
 		 */
 		background-color: var(--color-abyss);
-		background-image: linear-gradient(
-			to bottom,
-			var(--color-abyss) 0%,
-			#020304 28%,
-			#040506 54%,
-			#060708 78%,
-			#090b0c 100%
-		);
-		background-repeat: no-repeat;
+		background-image:
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+			radial-gradient(
+				ellipse 85% 50% at 78% -10%,
+				color-mix(in oklab, var(--color-gold-light) 22%, transparent),
+				transparent 68%
+			),
+			linear-gradient(to bottom, #f8f5e9 0%, #f2efe2 32%, #edf0e2 60%, #e5ead9 100%);
+		background-size:
+			180px 180px,
+			auto,
+			auto;
+		background-repeat: repeat, no-repeat, no-repeat;
 	}
 
 	body {
@@ -111,10 +127,17 @@
 		text-rendering: optimizeLegibility;
 	}
 
+	/* A phone is a narrower measure, not a smaller poster. */
+	@media (max-width: 48rem) {
+		body {
+			font-size: 1rem;
+			line-height: 1.6;
+		}
+	}
+
 	h1,
 	h2,
 	h3 {
-		font-variation-settings: 'SOFT' 24, 'WONK' 1;
 		font-optical-sizing: auto;
 		text-wrap: balance;
 	}
@@ -123,16 +146,16 @@
 		text-wrap: pretty;
 	}
 
-	/* Keyboard focus is visible everywhere, in the house gold. */
+	/* Keyboard focus is visible everywhere, in leaf green. */
 	:focus-visible {
-		outline: 2px solid var(--color-gold);
+		outline: 2px solid var(--color-leaf);
 		outline-offset: 3px;
 		border-radius: 2px;
 	}
 
 	::selection {
-		background: var(--color-gold);
-		color: var(--color-night);
+		background: var(--color-leaf);
+		color: var(--color-canopy-ink);
 	}
 }
 
@@ -141,67 +164,63 @@
 /**
  * Sticky house bar.
  *
- * Not a plate with a rule under it — a black gradient that feathers to nothing. A hard
- * bottom edge is the one thing that cannot survive on a page whose ground is already
- * black, so the bar fades out well past its own height, and the blur that frosts the
- * content passing underneath is masked by the same long fade. With no border and no shadow
- * there is no line for the eye to catch: the header just gets darker, and the darkness
- * reaches about twice as far down the page as the bar itself is tall.
+ * Not a plate with a rule under it — a mist wash that feathers to nothing. A hard bottom
+ * edge would cut across the forest, so the bar fades out well past its own height and the
+ * blur that frosts the content passing underneath is masked by the same long fade. The
+ * bar reads as fog gathering at the top of the page.
  */
 @utility site-head {
 	position: sticky;
 	top: 0;
 	z-index: 50;
+	/* The bar is the tab strip: it holds still while the page panels slide beneath it. */
+	view-transition-name: site-head;
 
 	&::before {
 		content: '';
 		position: absolute;
 		/* The bar is ~5.5rem tall, so this feather covers roughly one further bar-height. */
-		inset: 0 0 -7rem 0;
+		inset: 0 0 -6rem 0;
 		z-index: -1;
 		pointer-events: none;
 		background: linear-gradient(
 			to bottom,
-			rgb(0 0 0 / 0.98) 0%,
-			rgb(0 0 0 / 0.96) 42%,
-			rgb(0 0 0 / 0.74) 62%,
-			rgb(0 0 0 / 0.34) 82%,
+			rgb(247 244 232 / 0.97) 0%,
+			rgb(247 244 232 / 0.92) 44%,
+			rgb(247 244 232 / 0.58) 70%,
 			transparent 100%
 		);
-		/* The desaturation matters as much as the ink: over the hero's forest a pure black
-		   wash still reads green, so whatever is behind the bar is drained of colour first. */
-		backdrop-filter: blur(26px) saturate(0.15);
+		backdrop-filter: blur(20px) saturate(0.9);
 		-webkit-mask-image: linear-gradient(
 			to bottom,
 			#000 0%,
-			#000 42%,
-			rgb(0 0 0 / 0.62) 68%,
+			#000 44%,
+			rgb(0 0 0 / 0.6) 70%,
 			transparent 100%
 		);
 		mask-image: linear-gradient(
 			to bottom,
 			#000 0%,
-			#000 42%,
-			rgb(0 0 0 / 0.62) 68%,
+			#000 44%,
+			rgb(0 0 0 / 0.6) 70%,
 			transparent 100%
 		);
 	}
 
-	/* Once the page moves the bar holds a touch more ink, so links stay legible over
+	/* Once the page moves the bar holds a touch more mist, so links stay legible over
 	   whatever is sliding beneath them. */
 	&.lifted::before {
 		background: linear-gradient(
 			to bottom,
-			rgb(0 0 0 / 1) 0%,
-			rgb(0 0 0 / 0.99) 42%,
-			rgb(0 0 0 / 0.84) 62%,
-			rgb(0 0 0 / 0.44) 82%,
+			rgb(247 244 232 / 1) 0%,
+			rgb(247 244 232 / 0.98) 44%,
+			rgb(247 244 232 / 0.72) 70%,
 			transparent 100%
 		);
 	}
 }
 
-/** Nav item. The gold underline wipes in from the left on hover and on the current page. */
+/** Nav item. The leaf underline wipes in from the left on hover and on the current page. */
 @utility nav-link {
 	position: relative;
 	display: inline-flex;
@@ -224,7 +243,7 @@
 		right: 0.75rem;
 		bottom: 0.15rem;
 		height: 1.5px;
-		background: var(--color-gold);
+		background: var(--color-leaf);
 		transform: scaleX(0);
 		transform-origin: left center;
 		transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
@@ -236,7 +255,7 @@
 	}
 
 	&.active {
-		color: var(--color-bronze);
+		color: var(--color-leaf);
 	}
 }
 
@@ -246,10 +265,10 @@
 	margin-top: 0.5rem;
 	min-width: 11rem;
 	padding: 0.35rem;
-	background: #050706;
-	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	background: var(--color-paper);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 32%, transparent);
 	border-radius: var(--radius-lg);
-	box-shadow: 0 18px 40px -24px rgb(0 0 0 / 85%);
+	box-shadow: 0 18px 40px -24px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 
 	& a {
 		display: block;
@@ -261,20 +280,20 @@
 	}
 
 	& a:hover {
-		background: color-mix(in oklab, var(--color-gold) 20%, transparent);
+		background: color-mix(in oklab, var(--color-leaf) 12%, transparent);
 	}
 }
 
-/** The crests carry their own near-black ground, so they need no ring — just a soft seat. */
+/** The crests carry their own near-black ground, so they read as medallions in the mist. */
 @utility crest {
-	filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.6));
+	filter: drop-shadow(0 8px 18px color-mix(in oklab, var(--color-canopy) 28%, transparent));
 }
 
 /** Links inside the dark footer: a gold underline wipes in on hover. */
 @utility footer-link {
-	color: color-mix(in oklab, var(--color-parchment) 80%, transparent);
+	color: color-mix(in oklab, var(--color-canopy-ink) 80%, transparent);
 	text-decoration: none;
-	background-image: linear-gradient(var(--color-gold), var(--color-gold));
+	background-image: linear-gradient(var(--color-gold-light), var(--color-gold-light));
 	background-size: 0% 1px;
 	background-position: 0 100%;
 	background-repeat: no-repeat;
@@ -283,29 +302,37 @@
 		background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 
 	&:hover {
-		color: var(--color-gold-light);
+		color: var(--color-canopy-ink);
 		background-size: 100% 1px;
 	}
 }
 
 /**
- * Inner-page hero. Dark on the left where the type sits, opening up to the art on the
- * right — the opposite of a centred banner, so every page leads from the same edge.
+ * Inner-page hero: misty forest on the right where the art sits, thickening into fog on
+ * the left where the type sits — the opposite of a centred banner, so every page leads
+ * from the same edge.
  */
 @utility page-hero {
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
-	background: var(--color-abyss);
+	background: transparent;
+}
 
-	&::after {
-		content: '';
-		position: absolute;
-		inset: auto 0 0 0;
-		height: 26%;
-		z-index: 5;
-		pointer-events: none;
-		background: linear-gradient(to bottom, transparent, var(--color-abyss) 88%);
+/** A leaf watermark in the page hero, set well behind the copy. */
+.hero-leaf {
+	position: absolute;
+	right: 3%;
+	top: 8%;
+	z-index: -5;
+	width: clamp(6rem, 13vw, 12rem);
+	color: color-mix(in oklab, var(--color-leaf) 34%, transparent);
+	pointer-events: none;
+}
+
+@media (max-width: 48rem) {
+	.hero-leaf {
+		display: none;
 	}
 }
 
@@ -317,7 +344,11 @@
 	height: 100%;
 	object-fit: cover;
 	object-position: center 42%;
-	opacity: 0.8;
+	opacity: 0.62;
+	filter: saturate(0.88) contrast(0.98);
+	/* Dissolve the art into the page instead of ending on a ruled edge. */
+	-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+	mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
 }
 
 @utility hero-scrim {
@@ -327,11 +358,14 @@
 	background:
 		linear-gradient(
 			100deg,
-			var(--color-night) 8%,
-			color-mix(in oklab, var(--color-night) 62%, transparent) 52%,
-			color-mix(in oklab, var(--color-night) 18%, transparent) 100%
+			var(--color-abyss) 0%,
+			color-mix(in oklab, var(--color-abyss) 90%, transparent) 34%,
+			color-mix(in oklab, var(--color-abyss) 58%, transparent) 72%,
+			color-mix(in oklab, var(--color-abyss) 18%, transparent) 100%
 		),
-		linear-gradient(to top, var(--color-night) 0%, transparent 42%);
+		linear-gradient(to top, var(--color-abyss) 0%, transparent 46%);
+	-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+	mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
 }
 
 /* --------------------------------------------------------------------- home hero */
@@ -348,18 +382,7 @@
 	align-items: flex-start;
 	overflow: hidden;
 	min-height: 88svh;
-	background: var(--color-abyss);
-
-	/* Dissolve the forest into the black page rather than ending on a hard edge. */
-	&::after {
-		content: '';
-		position: absolute;
-		inset: auto 0 0 0;
-		height: 30%;
-		z-index: 5;
-		pointer-events: none;
-		background: linear-gradient(to bottom, transparent, var(--color-abyss) 82%);
-	}
+	background: transparent;
 }
 
 @utility hero-back {
@@ -369,9 +392,12 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	/* The back plate dissolves into the page at the foot of the hero. */
+	-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
+	mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
 }
 
-/** Keeps the mist from swallowing the white type at the top-left. */
+/** Morning mist in front of the back plate, so the ink wordmark stays crisp. */
 @utility hero-veil {
 	position: absolute;
 	inset: 0;
@@ -380,11 +406,17 @@
 	background:
 		linear-gradient(
 			180deg,
-			color-mix(in oklab, var(--color-night) 74%, transparent) 0%,
-			color-mix(in oklab, var(--color-night) 26%, transparent) 40%,
-			color-mix(in oklab, var(--color-night) 52%, transparent) 100%
+			color-mix(in oklab, var(--color-abyss) 76%, transparent) 0%,
+			color-mix(in oklab, var(--color-abyss) 32%, transparent) 42%,
+			color-mix(in oklab, var(--color-abyss) 16%, transparent) 68%,
+			color-mix(in oklab, var(--color-abyss) 46%, transparent) 88%,
+			transparent 100%
 		),
-		linear-gradient(95deg, color-mix(in oklab, var(--color-night) 62%, transparent) 0%, transparent 62%);
+		linear-gradient(
+			95deg,
+			color-mix(in oklab, var(--color-abyss) 52%, transparent) 0%,
+			transparent 62%
+		);
 }
 
 @utility hero-front {
@@ -399,9 +431,10 @@
 	/*
 	 * Fade the canopy out toward the top so it never cuts a hard edge across the mist,
 	 * and so the wordmark is kissed by treetops at rest — then climbs over it on scroll.
+	 * The foot fades too, handing the hero over to the page without a seam.
 	 */
-	-webkit-mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 52%);
-	mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 52%);
+	-webkit-mask-image: linear-gradient(to top, transparent 0%, #000 15%, #000 28%, transparent 52%);
+	mask-image: linear-gradient(to top, transparent 0%, #000 15%, #000 28%, transparent 52%);
 }
 
 @utility hero-copy {
@@ -411,24 +444,85 @@
 	padding-bottom: 42vh;
 }
 
+/** Drifting leaves over the home hero. Hidden unless the motion gate is set. */
+.leaf-fall {
+	display: none;
+}
+
+html.motion .leaf-fall {
+	position: absolute;
+	inset: 0;
+	z-index: 6;
+	display: block;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.leaf-fall span {
+	position: absolute;
+	top: -3rem;
+	left: var(--leaf-x, 20%);
+	width: var(--leaf-size, 0.55rem);
+	height: calc(var(--leaf-size, 0.55rem) * 1.55);
+	border-radius: 0 100% 0 100%;
+	background: linear-gradient(
+		135deg,
+		color-mix(in oklab, var(--color-leaf) 60%, var(--color-gold) 40%),
+		color-mix(in oklab, var(--color-leaf-light) 70%, var(--color-gold-light) 30%)
+	);
+	opacity: 0;
+	animation: leaf-fall var(--leaf-dur, 17s) linear var(--leaf-delay, 0s) infinite;
+	will-change: transform;
+}
+
+.leaf-fall span:nth-child(2n) {
+	background: linear-gradient(
+		135deg,
+		var(--color-gold-light),
+		color-mix(in oklab, var(--color-leaf) 55%, var(--color-gold) 45%)
+	);
+}
+
+.leaf-fall span:nth-child(3n) {
+	width: calc(var(--leaf-size, 0.55rem) * 0.8);
+	height: calc(var(--leaf-size, 0.55rem) * 1.2);
+}
+
+@keyframes leaf-fall {
+	0% {
+		transform: translate3d(0, -8vh, 0) rotate(0deg);
+		opacity: 0;
+	}
+	10% {
+		opacity: 0.55;
+	}
+	50% {
+		transform: translate3d(var(--leaf-drift, 3rem), 48vh, 0) rotate(180deg);
+	}
+	100% {
+		transform: translate3d(calc(var(--leaf-drift, 3rem) * -0.5), 108vh, 0) rotate(340deg);
+		opacity: 0;
+	}
+}
+
 @utility btn-gold {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.7rem 1.4rem;
 	border: 0;
-	border-radius: 0.55rem;
-	background: var(--color-gold);
-	color: var(--color-night);
+	border-radius: 0.6rem 0.85rem 0.6rem 0.85rem;
+	background: var(--color-leaf);
+	color: var(--color-canopy-ink);
 	font-weight: 600;
 	font-size: 0.95rem;
-	box-shadow: 0 12px 26px -16px color-mix(in oklab, var(--color-gold) 90%, transparent);
+	box-shadow: 0 14px 26px -18px color-mix(in oklab, var(--color-canopy) 65%, transparent);
 	transition:
 		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
 		background-color 0.25s ease;
 
 	&:hover {
-		background: var(--color-gold-light);
+		background: var(--color-leaf-light);
 		transform: translateY(-2px);
 	}
 }
@@ -438,9 +532,9 @@
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.7rem 1.4rem;
-	border: 1px solid color-mix(in oklab, var(--color-parchment) 45%, transparent);
-	border-radius: 0.55rem;
-	background: color-mix(in oklab, var(--color-night) 32%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-parchment) 32%, transparent);
+	border-radius: 0.6rem 0.85rem 0.6rem 0.85rem;
+	background: color-mix(in oklab, var(--color-paper) 58%, transparent);
 	color: var(--color-parchment);
 	font-weight: 600;
 	font-size: 0.95rem;
@@ -451,8 +545,8 @@
 		border-color 0.25s ease;
 
 	&:hover {
-		background: color-mix(in oklab, var(--color-night) 58%, transparent);
-		border-color: var(--color-gold);
+		background: color-mix(in oklab, var(--color-paper) 92%, transparent);
+		border-color: var(--color-leaf);
 		transform: translateY(-2px);
 	}
 }
@@ -464,7 +558,7 @@
 	gap: 0.4rem;
 	font-weight: 600;
 	font-size: 0.95rem;
-	color: var(--color-bronze);
+	color: var(--color-leaf);
 	text-decoration: none;
 	background-image: linear-gradient(var(--color-gold), var(--color-gold));
 	background-size: 0% 1px;
@@ -476,18 +570,28 @@
 
 	&:hover {
 		background-size: 100% 1px;
-		color: var(--color-primary);
+		color: var(--color-leaf-light);
 	}
 }
 
-/** Region chip inside the dark band. */
+/** Links that sit inside a canopy wash need the sunlight tone, not the leaf. */
+.community .text-link {
+	color: var(--color-gold-light);
+}
+
+.community .text-link:hover {
+	color: var(--color-canopy-ink);
+}
+
+/** Region chip inside a band. */
 @utility region-chip {
 	display: inline-flex;
 	align-items: baseline;
 	gap: 0.55rem;
 	padding: 0.5rem 0.95rem;
-	border: 1px solid color-mix(in oklab, var(--color-gold) 32%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 45%, transparent);
 	border-radius: 999px;
+	background: color-mix(in oklab, var(--color-paper) 55%, transparent);
 	font-family: var(--font-mono);
 	font-size: 0.8rem;
 	letter-spacing: 0.05em;
@@ -499,21 +603,20 @@
 		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 
 	& span {
-		color: var(--color-gold);
+		color: var(--color-leaf);
 		font-size: 0.7rem;
 	}
 
 	&:hover {
-		background: color-mix(in oklab, var(--color-gold) 16%, transparent);
-		border-color: var(--color-gold);
+		background: var(--color-paper);
+		border-color: var(--color-leaf);
 		transform: translateY(-2px);
 	}
 }
 
-/** The carved house display face. Use for headings only. */
+/** The house display face. Use for headings only. */
 @utility display-face {
 	font-family: var(--font-display);
-	font-variation-settings: 'SOFT' 24, 'WONK' 1;
 	font-optical-sizing: auto;
 	letter-spacing: -0.015em;
 }
@@ -521,7 +624,7 @@
 /**
  * The house wordmark — the "Saranda" name only. Slackey is a single, very heavy display
  * weight with no variable axes, so weight is pinned to 400 (anything else fakes a bold)
- * and the size is pulled in a touch, because Slackey runs much wider than Fraunces.
+ * and the size is pulled in a touch, because Slackey runs much wider than Newsreader.
  */
 @utility brand-face {
 	font-family: var(--font-slackey);
@@ -543,23 +646,25 @@
 }
 
 /**
- * The banner rule: a hairline terminating in a lozenge, like the end of a ribbon.
- * The line takes the surrounding text colour so it reads on parchment *and* on the dark
- * bands; the lozenge is always house gold, which is the only gold allowed on paper.
+ * The banner rule: a hairline terminating in a leaf. The line takes the surrounding text
+ * colour so it reads on mist *and* in the canopy; the leaf is always house green.
  */
 @utility rule-line {
 	height: 1px;
 	flex: 1 1 auto;
 	transform-origin: left center;
-	background: color-mix(in oklab, currentColor 40%, transparent);
+	background: color-mix(in oklab, currentColor 38%, transparent);
 }
 
 @utility rule-dot {
-	width: 7px;
-	height: 7px;
+	/* A leaf: pointed tip, rounded belly. */
+	width: 0.68rem;
+	height: 0.68rem;
 	flex: none;
-	rotate: 45deg;
-	background: var(--color-gold);
+	rotate: -45deg;
+	border-radius: 0 100% 0 100%;
+	background: linear-gradient(135deg, var(--color-leaf), var(--color-leaf-light));
+	box-shadow: inset 0 0 0 0.5px color-mix(in oklab, var(--color-canopy) 35%, transparent);
 }
 
 @utility rule-wrap {
@@ -622,19 +727,24 @@
 /** The raised paper surface, used instead of white-on-cream. */
 @utility card {
 	background: var(--color-paper);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 26%, transparent);
 	border-radius: var(--radius-xl);
 	box-shadow:
-		0 1px 2px color-mix(in oklab, var(--color-night) 6%, transparent),
-		0 10px 28px -18px color-mix(in oklab, var(--color-night) 45%, transparent);
+		0 1px 2px color-mix(in oklab, var(--color-canopy) 5%, transparent),
+		0 14px 30px -22px color-mix(in oklab, var(--color-canopy) 38%, transparent);
 	transition:
 		transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
 		box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Full-bleed deep-green band. Breaks the parchment run and carries the house voice. */
+/* Full-bleed fern band. Breaks the mist run and carries the house voice. */
 @utility band {
-	background: var(--color-green);
+	background-color: var(--color-green);
+	background-image: radial-gradient(
+		ellipse 70% 120% at 18% 0%,
+		color-mix(in oklab, var(--color-gold-light) 16%, transparent),
+		transparent 62%
+	);
 	color: var(--color-parchment);
 	position: relative;
 	overflow: hidden;
@@ -643,27 +753,84 @@
 @utility band-rule {
 	background: repeating-linear-gradient(
 		to right,
-		color-mix(in oklab, var(--color-gold) 55%, transparent) 0 6px,
+		color-mix(in oklab, var(--color-gold-light) 62%, transparent) 0 6px,
 		transparent 6px 12px
 	);
 }
 
+/**
+ * A treeline at the edge of the forest: the house's transparent-sky canopy plate, anchored
+ * to the top of the footer, fading down into the deep canopy so the dark floor begins in
+ * the trees rather than at a straight seam.
+ */
+@utility treeline {
+	position: relative;
+	width: 100%;
+	height: clamp(7rem, 13vw, 11rem);
+	overflow: hidden;
+	background: transparent;
+	line-height: 0;
+
+	& img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* Crop to the treetops, not the empty sky above them. */
+		object-position: center 54%;
+		opacity: 0.96;
+		transform: scale(1.03);
+		-webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 100%);
+		mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 100%);
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			transparent 0%,
+			transparent 46%,
+			color-mix(in oklab, var(--color-canopy) 65%, transparent) 78%,
+			var(--color-canopy) 100%
+		);
+	}
+}
+
+/** The forest floor: deep canopy with the grain of a timber plank barely showing. */
+@utility footer-floor {
+	background-color: var(--color-canopy);
+	background-image:
+		linear-gradient(
+			to bottom,
+			color-mix(in oklab, var(--color-canopy) 84%, transparent),
+			var(--color-canopy) 68%
+		),
+		url('/media/site/wooden_plank2.70eae95d.webp');
+	background-size: auto, cover;
+	background-position: center;
+	background-repeat: repeat, no-repeat;
+	color: var(--color-canopy-ink);
+}
+
 /* Frosted panel kept for the admin screens, which share this stylesheet. */
 @utility green-glass-container {
-	background-color: color-mix(in oklab, var(--color-neutral-light) 82%, transparent);
-	backdrop-filter: blur(8px);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 15%, transparent);
+	background-color: color-mix(in oklab, var(--color-paper) 88%, transparent);
+	backdrop-filter: blur(10px);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 30%, transparent);
 	border-radius: var(--radius-xl);
-	box-shadow: 0 4px 12px color-mix(in oklab, var(--color-primary) 12%, transparent);
+	box-shadow: 0 12px 30px -24px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 }
 
 /** An album shot: a little depth, a little lift. No filter — the picture is the point. */
 @utility album-photo {
-	box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
+	box-shadow: 0 2px 10px color-mix(in oklab, var(--color-canopy) 16%, transparent);
 	transition: box-shadow 0.3s ease;
 
 	&:hover {
-		box-shadow: 0 8px 22px rgb(0 0 0 / 32%);
+		box-shadow: 0 10px 24px color-mix(in oklab, var(--color-canopy) 26%, transparent);
 	}
 }
 
@@ -672,7 +839,7 @@
 /** An event row: a hairline, generous rhythm, and a poster that can sit alongside. */
 @utility event-row {
 	padding-block: 2.75rem;
-	border-top: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	border-top: 1px solid color-mix(in oklab, var(--color-parchment) 12%, transparent);
 }
 
 @utility event-date {
@@ -700,11 +867,39 @@
 	align-items: baseline;
 	gap: 0.35rem 1.25rem;
 	padding-block: 1.15rem;
-	border-bottom: 1px solid color-mix(in oklab, var(--color-primary) 10%, transparent);
+	border-bottom: 1px solid color-mix(in oklab, var(--color-parchment) 12%, transparent);
 	transition: border-color 0.35s ease;
 
 	&:hover {
-		border-bottom-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+		border-bottom-color: color-mix(in oklab, var(--color-leaf) 55%, transparent);
+	}
+}
+
+/* Phones get a tighter record: less air, but the same hairline rhythm. */
+@media (max-width: 40rem) {
+	.event-row {
+		padding-block: 2rem;
+	}
+
+	.link-row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.25rem 0.85rem;
+		padding-block: 1rem;
+	}
+
+	/* Title owns the first line; host and action share a tidy second line. */
+	.link-row > :first-child {
+		grid-column: 1 / -1;
+	}
+
+	.link-row > .role {
+		grid-column: 1;
+	}
+
+	.link-row > .text-link {
+		grid-column: 2;
+		justify-self: end;
 	}
 }
 
@@ -745,37 +940,37 @@
 
 /**
  * A photograph, left to speak for itself. No filter, no wash — the house identity comes
- * from the frame (a hairline that warms toward gold on hover) and the type around it.
+ * from the frame (a bark hairline that warms toward leaf green on hover) and the type.
  */
 @utility photo {
 	display: block;
 	width: 100%;
 	object-fit: cover;
 	border-radius: var(--radius-lg);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 32%, transparent);
 	transition: border-color 0.45s ease;
 }
 
 .group:hover .photo,
 .photo:hover {
-	border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+	border-color: color-mix(in oklab, var(--color-leaf) 55%, transparent);
 }
 
 /**
  * A portrait card. The frame is cut to the portrait's own ratio (4:5 — what the roster
  * actually uploads) instead of a fixed height, so the grid cannot crop someone's head off.
- * The name is burned into the foot of the image over a black wash: white type on a
+ * The name is burned into the foot of the image over a canopy wash: cream type on a
  * photograph we did not shoot is otherwise a lottery.
  */
 @utility face {
 	position: relative;
 	overflow: hidden;
 	background: var(--color-paper);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 30%, transparent);
 	border-radius: var(--radius-xl);
 	box-shadow:
-		0 1px 2px rgb(0 0 0 / 40%),
-		0 18px 40px -26px rgb(0 0 0 / 85%);
+		0 1px 2px color-mix(in oklab, var(--color-canopy) 6%, transparent),
+		0 18px 40px -28px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 	transition:
 		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
 		border-color 0.45s ease,
@@ -794,10 +989,10 @@
 
 	&:hover {
 		transform: translateY(-6px);
-		border-color: color-mix(in oklab, var(--color-gold) 50%, transparent);
+		border-color: color-mix(in oklab, var(--color-leaf) 55%, transparent);
 		box-shadow:
-			0 1px 2px rgb(0 0 0 / 40%),
-			0 26px 50px -26px rgb(0 0 0 / 90%);
+			0 1px 2px color-mix(in oklab, var(--color-canopy) 8%, transparent),
+			0 26px 50px -26px color-mix(in oklab, var(--color-canopy) 65%, transparent);
 	}
 }
 
@@ -811,28 +1006,28 @@
  */
 @utility face-open {
 	border-style: dashed;
-	border-color: color-mix(in oklab, var(--color-gold) 34%, transparent);
+	border-color: color-mix(in oklab, var(--color-leaf) 40%, transparent);
 
 	& img {
 		opacity: 0.35;
 	}
 
 	&:hover {
-		border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
+		border-color: color-mix(in oklab, var(--color-leaf) 60%, transparent);
 	}
 }
 
-/** Black wash rising from the base of a portrait, so the name stays legible. */
+/** Canopy wash rising from the base of a portrait, so the name stays legible. */
 @utility face-scrim {
 	position: absolute;
 	inset: 0;
 	background: linear-gradient(
 		to top,
-		rgb(0 0 0 / 0.95) 0%,
-		rgb(0 0 0 / 0.88) 14%,
-		rgb(0 0 0 / 0.6) 32%,
-		rgb(0 0 0 / 0.22) 52%,
-		transparent 72%
+		color-mix(in oklab, var(--color-canopy) 96%, transparent) 0%,
+		color-mix(in oklab, var(--color-canopy) 88%, transparent) 16%,
+		color-mix(in oklab, var(--color-canopy) 58%, transparent) 34%,
+		color-mix(in oklab, var(--color-canopy) 20%, transparent) 54%,
+		transparent 74%
 	);
 }
 
@@ -871,16 +1066,16 @@
 	}
 }
 
-/** One mark. Gold plate on hover, so the row reads as a set of buttons, not decoration. */
+/** One mark. Leaf plate on hover, so the row reads as a set of buttons, not decoration. */
 @utility face-link {
 	display: grid;
 	place-items: center;
 	width: 1.85rem;
 	height: 1.85rem;
 	border-radius: 0.5rem;
-	border: 1px solid color-mix(in oklab, var(--color-parchment) 24%, transparent);
-	background: rgb(0 0 0 / 38%);
-	color: var(--color-parchment);
+	border: 1px solid color-mix(in oklab, var(--color-canopy-ink) 30%, transparent);
+	background: color-mix(in oklab, var(--color-canopy) 48%, transparent);
+	color: var(--color-canopy-ink);
 	backdrop-filter: blur(5px);
 	transition:
 		background-color 0.25s ease,
@@ -889,16 +1084,16 @@
 		transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 
 	&:hover {
-		background: var(--color-gold);
-		border-color: var(--color-gold);
-		color: var(--color-abyss);
+		background: var(--color-leaf);
+		border-color: var(--color-leaf);
+		color: var(--color-canopy-ink);
 		transform: translateY(-2px);
 	}
 }
 
 /**
  * A community card. Image-led like a portrait card: the photograph is the ground, the
- * type sits in a black wash at the foot, and hovering lifts the whole plate.
+ * type sits in a canopy wash at the foot, and hovering lifts the whole plate.
  */
 @utility community {
 	position: relative;
@@ -908,9 +1103,9 @@
 	isolation: isolate;
 	overflow: hidden;
 	border-radius: var(--radius-xl);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 14%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 32%, transparent);
 	background: var(--color-paper);
-	box-shadow: 0 18px 40px -30px rgb(0 0 0 / 90%);
+	box-shadow: 0 18px 40px -30px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 	transition:
 		transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
 		border-color 0.45s ease,
@@ -928,8 +1123,8 @@
 
 	&:hover {
 		transform: translateY(-6px);
-		border-color: color-mix(in oklab, var(--color-gold) 55%, transparent);
-		box-shadow: 0 28px 55px -30px rgb(0 0 0 / 95%);
+		border-color: color-mix(in oklab, var(--color-leaf) 58%, transparent);
+		box-shadow: 0 28px 55px -30px color-mix(in oklab, var(--color-canopy) 65%, transparent);
 	}
 }
 
@@ -937,18 +1132,18 @@
 	transform: scale(1.055);
 }
 
-/** Black wash deep enough to carry three lines of copy over a photograph we did not shoot. */
+/** Canopy wash deep enough to carry three lines of copy over a photograph we did not shoot. */
 @utility community-scrim {
 	position: absolute;
 	inset: 0;
 	z-index: -1;
 	background: linear-gradient(
 		to top,
-		rgb(0 0 0 / 0.99) 0%,
-		rgb(0 0 0 / 0.97) 30%,
-		rgb(0 0 0 / 0.9) 52%,
-		rgb(0 0 0 / 0.72) 74%,
-		rgb(0 0 0 / 0.45) 100%
+		color-mix(in oklab, var(--color-canopy) 98%, transparent) 0%,
+		color-mix(in oklab, var(--color-canopy) 94%, transparent) 30%,
+		color-mix(in oklab, var(--color-canopy) 84%, transparent) 52%,
+		color-mix(in oklab, var(--color-canopy) 64%, transparent) 74%,
+		color-mix(in oklab, var(--color-canopy) 38%, transparent) 100%
 	);
 }
 
@@ -992,7 +1187,7 @@
 @utility collage-plate {
 	overflow: hidden;
 	background: var(--color-paper);
-	box-shadow: 0 12px 30px -20px rgb(0 0 0 / 0.9);
+	box-shadow: 0 12px 30px -20px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 	transition: box-shadow 0.4s ease;
 }
 
@@ -1009,11 +1204,11 @@
 .collage:hover .collage-plate,
 .collage:focus-visible .collage-plate {
 	box-shadow:
-		0 12px 30px -20px rgb(0 0 0 / 0.9),
-		0 0 0 1px rgb(255 255 255 / 12%);
+		0 12px 30px -20px color-mix(in oklab, var(--color-canopy) 55%, transparent),
+		0 0 0 1px color-mix(in oklab, var(--color-leaf) 35%, transparent);
 }
 
-/** The sticker: a dark disc dropped on the junction of the plates. */
+/** The sticker: a dark canopy disc dropped on the junction of the plates. */
 @utility collage-sticker {
 	position: absolute;
 	left: 50%;
@@ -1025,10 +1220,14 @@
 	padding: 6%;
 	border-radius: 9999px;
 	text-align: center;
-	background: radial-gradient(circle at 50% 30%, #17191b 0%, #040506 76%);
+	background: radial-gradient(
+		circle at 50% 30%,
+		color-mix(in oklab, var(--color-canopy) 88%, var(--color-leaf)),
+		var(--color-canopy) 78%
+	);
 	box-shadow:
-		0 22px 45px -16px rgb(0 0 0 / 0.9),
-		inset 0 0 0 1px rgb(255 255 255 / 9%);
+		0 22px 45px -16px color-mix(in oklab, var(--color-canopy) 60%, transparent),
+		inset 0 0 0 1px color-mix(in oklab, var(--color-gold-light) 28%, transparent);
 	transform: translate(-50%, -50%);
 	transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1056,11 +1255,9 @@
 	font-size: 7cqw;
 	font-style: italic;
 	font-weight: 600;
-	font-variation-settings:
-		'SOFT' 60,
-		'WONK' 1;
+	font-optical-sizing: auto;
 	line-height: 1.02;
-	color: var(--color-gold);
+	color: var(--color-gold-light);
 	text-transform: capitalize;
 }
 
@@ -1070,11 +1267,9 @@
 	font-size: 5.8cqw;
 	font-style: italic;
 	font-weight: 400;
-	font-variation-settings:
-		'SOFT' 60,
-		'WONK' 1;
+	font-optical-sizing: auto;
 	line-height: 1.1;
-	color: var(--color-gold-light);
+	color: var(--color-canopy-ink);
 }
 
 /** A number in mono — it is real data about a set, so it reads like a record. */
@@ -1082,7 +1277,7 @@
 	font-family: var(--font-mono);
 	font-size: 0.66rem;
 	letter-spacing: 0.12em;
-	color: color-mix(in oklab, var(--color-gold) 80%, transparent);
+	color: color-mix(in oklab, var(--color-gold-light) 90%, transparent);
 }
 
 /** Oversized initial over a card's photograph — the card's identity, not a stock photo. */
@@ -1092,14 +1287,12 @@
 	bottom: 0.1rem;
 	z-index: 1;
 	font-family: var(--font-display);
-	font-variation-settings:
-		'SOFT' 24,
-		'WONK' 1;
+	font-optical-sizing: auto;
 	font-size: clamp(3.75rem, 8vw, 5.5rem);
 	line-height: 0.82;
 	font-weight: 600;
-	color: color-mix(in oklab, var(--color-gold) 88%, transparent);
-	text-shadow: 0 8px 26px rgb(0 0 0 / 60%);
+	color: color-mix(in oklab, var(--color-gold-light) 92%, transparent);
+	text-shadow: 0 8px 26px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 	transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1107,17 +1300,17 @@
 	transform: translateY(-5px);
 }
 
-/** Card body: paper, gold hairline on hover, a lift you can feel. */
+/** Card body: paper, leaf hairline on hover, a lift you can feel. */
 @utility pennant {
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 	background: var(--color-paper);
-	border: 1px solid color-mix(in oklab, var(--color-primary) 12%, transparent);
+	border: 1px solid color-mix(in oklab, var(--color-bark) 28%, transparent);
 	border-radius: var(--radius-xl);
 	box-shadow:
-		0 1px 2px color-mix(in oklab, var(--color-night) 6%, transparent),
-		0 10px 28px -20px color-mix(in oklab, var(--color-night) 45%, transparent);
+		0 1px 2px color-mix(in oklab, var(--color-canopy) 5%, transparent),
+		0 12px 28px -22px color-mix(in oklab, var(--color-canopy) 42%, transparent);
 	transition:
 		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
 		box-shadow 0.45s ease,
@@ -1125,10 +1318,10 @@
 
 	&:hover {
 		transform: translateY(-6px);
-		border-color: color-mix(in oklab, var(--color-gold) 50%, transparent);
+		border-color: color-mix(in oklab, var(--color-leaf) 55%, transparent);
 		box-shadow:
-			0 1px 2px color-mix(in oklab, var(--color-night) 8%, transparent),
-			0 28px 54px -32px color-mix(in oklab, var(--color-night) 75%, transparent);
+			0 1px 2px color-mix(in oklab, var(--color-canopy) 8%, transparent),
+			0 28px 54px -32px color-mix(in oklab, var(--color-canopy) 55%, transparent);
 	}
 }
 
@@ -1138,8 +1331,95 @@
 	inset: auto 0 0 0;
 	height: 2px;
 	transform-origin: left center;
-	background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light));
+	background: linear-gradient(90deg, var(--color-leaf), var(--color-gold-light));
 	pointer-events: none;
+}
+
+/* ------------------------------------------------------------- route transitions */
+
+/*
+ * A same-document view transition, started from the root layout's `onNavigate`. The old
+ * page and the new one are two opaque panels of one strip: both travel the full viewport
+ * width on the same clock, so the seam between them never opens and the mist ground never
+ * flashes through. Forward moves the strip left (the next tab comes from the right); back
+ * moves it right. The bar is lifted out separately below, so it stays put while the page
+ * and footer travel as the strip.
+ */
+@keyframes page-out-left {
+	to {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes page-in-right {
+	from {
+		transform: translateX(100%);
+	}
+}
+
+@keyframes page-out-right {
+	to {
+		transform: translateX(100%);
+	}
+}
+
+@keyframes page-in-left {
+	from {
+		transform: translateX(-100%);
+	}
+}
+
+::view-transition {
+	background: var(--color-abyss);
+}
+
+::view-transition-old(root) {
+	animation: page-out-left 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-new(root) {
+	animation: page-in-right 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Moving back up the bar reverses the strip. */
+html[data-nav-direction='back']::view-transition-old(root) {
+	animation-name: page-out-right;
+}
+
+html[data-nav-direction='back']::view-transition-new(root) {
+	animation-name: page-in-left;
+}
+
+/*
+ * The bar is named, which lifts it out of the sliding root frame. It holds still while the
+ * panels move underneath; the incoming bar is shown immediately, so the active tab flips
+ * at the start of the slide instead of travelling off-screen with the old page.
+ */
+::view-transition-group(site-head) {
+	animation: none;
+	z-index: 10;
+}
+
+::view-transition-old(site-head) {
+	animation: none;
+	opacity: 0;
+}
+
+::view-transition-new(site-head) {
+	animation: none;
+}
+
+/* The captured bar must show the new tab already settled, not caught mid-wipe. */
+html[data-view-transition] .nav-link,
+html[data-view-transition] .nav-link::after {
+	transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+	}
 }
 
 /* ------------------------------------------------------------- motion hooks */
@@ -1187,5 +1467,9 @@ html.motion [data-intro-rule] {
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
+	}
+
+	html.motion .leaf-fall {
+		display: none;
 	}
 }

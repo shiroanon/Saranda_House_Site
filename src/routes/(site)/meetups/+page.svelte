@@ -16,16 +16,17 @@
 <PageHero
 	title="Meet Ups"
 	kicker="Regional chapters"
-	subtitle="{data.regions.length} regions · {data.total} meetups hosted so far. Find the one closest to you."
+	subtitle="{data.regions
+		.length} regions · {data.total} meetups hosted so far. Find the one closest to you."
 	image={assets.mist2}
 />
 
-<section class="shell pt-14 pb-16 md:pt-16" use:reveal>
+<section class="shell pt-10 pb-14 md:pt-16" use:reveal>
 	<SectionHead label="By region" count={`${data.regions.length}`} />
 
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{#each data.regions as region (region.$id)}
-			<a href={`/meetups/${region.city}`} class="pennant group" data-reveal>
+			<a href={`/meetups/${region.city}`} class="group pennant" data-reveal>
 				<div class="photo-box h-56">
 					<img src={region.image ?? assets.mist1} alt="" loading="lazy" />
 				</div>
@@ -41,7 +42,7 @@
 						></span>
 					</div>
 
-					<p class="role shrink-0 text-right">
+					<p class="shrink-0 text-right role">
 						{data.counts[region.city] ?? 0} meetup{data.counts[region.city] === 1 ? '' : 's'}
 					</p>
 				</div>

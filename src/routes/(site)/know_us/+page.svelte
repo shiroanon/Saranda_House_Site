@@ -25,7 +25,7 @@
 	title="Know Us"
 	kicker="The people who run the house"
 	subtitle="House Council, Regional Coordinators, and the teams that keep Saranda moving."
-	image={assets.bg3}
+	image={assets.mist2}
 >
 	<p class="eyebrow text-parchment/60">
 		{total} people · across the council and {data.teams.length} teams
@@ -33,7 +33,7 @@
 </PageHero>
 
 <!-- ──────────────────────────────────────────────────────────────  house council -->
-<section class="shell pt-14 pb-16 md:pt-16 md:pb-20" use:reveal>
+<section class="shell pt-10 pb-14 md:pt-16 md:pb-20" use:reveal>
 	<div class="roll">
 		<SectionHead label="House Council" count={`${data.upper.length}`} />
 
@@ -46,7 +46,7 @@
 </section>
 
 <!-- ─────────────────────────────────────────────────────  regional coordinators -->
-<section class="shell pb-16 md:pb-20" use:reveal>
+<section class="shell pb-14 md:pb-20" use:reveal>
 	<div class="roll">
 		<SectionHead label="Regional coordinators" count={`${data.lower.length} regions`} />
 
@@ -64,7 +64,7 @@
 </section>
 
 <!-- ────────────────────────────────────────────────────────────────────  teams -->
-<section class="shell pb-20" use:reveal>
+<section class="shell pb-14 md:pb-20" use:reveal>
 	<div class="roll">
 		<SectionHead label="Teams" count={`${data.teams.length}`} />
 
@@ -72,12 +72,12 @@
 			{#each data.teams as team (team.title)}
 				<div>
 					<div class="mb-6 flex items-center gap-4" data-reveal>
-						<h3 class="display-face text-title shrink-0 font-semibold">{team.title}</h3>
+						<h3 class="shrink-0 display-face text-title font-semibold">{team.title}</h3>
 						<span class="rule-wrap" aria-hidden="true">
 							<span class="rule-line" data-reveal="rule"></span>
 							<span class="rule-dot"></span>
 						</span>
-						<span class="eyebrow shrink-0 text-moss">{team.members.length}</span>
+						<span class="shrink-0 eyebrow text-moss">{team.members.length}</span>
 					</div>
 
 					<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

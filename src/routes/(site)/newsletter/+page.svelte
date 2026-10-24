@@ -33,14 +33,16 @@
 	title="The Saranda Express"
 	kicker="Newsletter"
 	subtitle="{data.editions.length} editions of house news, chronicles, and things worth reading."
-	image={assets.bg3}
+	image={assets.mist1}
 />
 
-<section class="shell pt-14 pb-16 md:pt-16 md:pb-20" use:reveal>
+<section class="shell pt-10 pb-14 md:pt-16 md:pb-20" use:reveal>
 	<SectionHead label="Editions" count={`${data.editions.length}`} />
 
 	{#if data.editions.length === 0}
-		<p class="card p-8 text-center opacity-80">No editions yet — subscribe and catch the first one.</p>
+		<p class="card p-8 text-center opacity-80">
+			No editions yet — subscribe and catch the first one.
+		</p>
 	{:else}
 		<ol class="flex flex-col">
 			{#each data.editions as edition, i (edition.$id)}
@@ -50,7 +52,7 @@
 				>
 					<!-- The issue date leads, in mono — it is real data, so it reads like a record. -->
 					<div class="md:pt-2">
-						<span class="role text-gold">{edition.date ?? `No. ${i + 1}`}</span>
+						<span class="role text-leaf">{edition.date ?? `No. ${i + 1}`}</span>
 					</div>
 
 					<div class="min-w-0">
@@ -72,7 +74,7 @@
 
 						{#if edition.url}
 							<a
-								class="text-link mt-6 inline-flex items-center gap-2"
+								class="mt-6 text-link inline-flex items-center gap-2"
 								href={edition.url}
 								target="_blank"
 								rel="noopener noreferrer"

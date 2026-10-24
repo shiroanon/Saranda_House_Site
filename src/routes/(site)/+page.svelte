@@ -40,7 +40,7 @@
 	<img src={assets.forestBack} alt="" class="hero-back" />
 	<div class="hero-veil"></div>
 
-	<div class="shell hero-copy">
+	<div class="hero-copy shell">
 		<!-- The institute's own crest stands beside the name rather than above it. -->
 		<div class="flex items-center gap-4 md:gap-6">
 			<h1 class="brand-face text-display text-parchment">
@@ -54,7 +54,7 @@
 				alt="IIT Madras"
 				width="96"
 				height="96"
-				class="crest h-16 w-16 shrink-0 rounded-full object-cover md:h-24 md:w-24"
+				class="h-16 w-16 shrink-0 rounded-full object-cover crest md:h-24 md:w-24"
 				data-intro="soft"
 			/>
 		</div>
@@ -65,7 +65,7 @@
 		</div>
 
 		<p
-			class="display-face mt-6 max-w-[22ch] text-[1.2rem] leading-snug font-normal text-parchment/90 italic"
+			class="mt-6 max-w-[26rem] font-sans text-[0.8rem] leading-relaxed font-semibold tracking-[0.16em] text-parchment/80 uppercase"
 			data-intro="soft"
 		>
 			{siteTagline}
@@ -78,10 +78,38 @@
 	</div>
 
 	<img src={assets.forestFront} alt="" class="hero-front" />
+
+	<!-- A few leaves on the morning air. Hidden without JS or with reduced motion. -->
+	<div class="leaf-fall" aria-hidden="true">
+		<span
+			style="--leaf-x: 6%; --leaf-size: 0.55rem; --leaf-dur: 19s; --leaf-delay: 0s; --leaf-drift: 4rem"
+		></span>
+		<span
+			style="--leaf-x: 18%; --leaf-size: 0.42rem; --leaf-dur: 15s; --leaf-delay: 2.5s; --leaf-drift: -3rem"
+		></span>
+		<span
+			style="--leaf-x: 31%; --leaf-size: 0.7rem; --leaf-dur: 22s; --leaf-delay: 6s; --leaf-drift: 3rem"
+		></span>
+		<span
+			style="--leaf-x: 47%; --leaf-size: 0.5rem; --leaf-dur: 17s; --leaf-delay: 9s; --leaf-drift: -4rem"
+		></span>
+		<span
+			style="--leaf-x: 62%; --leaf-size: 0.62rem; --leaf-dur: 20s; --leaf-delay: 4s; --leaf-drift: 5rem"
+		></span>
+		<span
+			style="--leaf-x: 74%; --leaf-size: 0.4rem; --leaf-dur: 14s; --leaf-delay: 11s; --leaf-drift: -2rem"
+		></span>
+		<span
+			style="--leaf-x: 86%; --leaf-size: 0.58rem; --leaf-dur: 18s; --leaf-delay: 7s; --leaf-drift: -5rem"
+		></span>
+		<span
+			style="--leaf-x: 94%; --leaf-size: 0.46rem; --leaf-dur: 16s; --leaf-delay: 13s; --leaf-drift: 3rem"
+		></span>
+	</div>
 </section>
 
 <!-- ─────────────────────────────────────────────────────────────  about -->
-<section class="shell py-20 md:py-28" use:reveal>
+<section class="shell py-14 md:py-28" use:reveal>
 	<div class="rail">
 		<div>
 			<p class="eyebrow text-moss">About us</p>
@@ -92,7 +120,9 @@
 			<p class="display-face text-title leading-[1.28] font-normal text-primary">
 				<span use:splitWords>{lead}</span>
 			</p>
-			<p class="mt-6 text-lg leading-relaxed text-primary/85" data-reveal>{detail}</p>
+			<p class="mt-6 text-base leading-relaxed text-primary/85 sm:text-lg" data-reveal>
+				{detail}
+			</p>
 
 			<div class="mt-8 flex flex-wrap gap-x-7 gap-y-3" data-reveal>
 				<a href="/meetups" class="text-link">Regional meetups</a>
@@ -108,7 +138,7 @@
 	One collage per meetup region: four photographs staggered 2x2 with the region named on
 	a disc at the junction. Full-bleed and pinned, so the whole set slides past as you scroll.
 -->
-<section class="py-20 md:py-24">
+<section class="py-14 md:py-24">
 	<!--
 		Full-bleed on purpose: ScrollTrigger pins this band and measures travel against the
 		viewport, so it must not sit inside the 88rem `shell` column.
@@ -122,7 +152,7 @@
 </section>
 
 <!-- ─────────────────────────────────────────────────────────────  communities -->
-<section class="shell pb-20 md:pb-24" use:reveal>
+<section class="shell pb-14 md:pb-24" use:reveal>
 	<SectionHead label="Communities" count={`${cards.length} to join`} />
 
 	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

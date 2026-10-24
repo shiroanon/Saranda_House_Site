@@ -24,23 +24,20 @@
 	image={assets.woodPlank2}
 />
 
-<section class="shell pt-14 pb-16 md:pt-16" use:reveal>
+<section class="shell pt-10 pb-14 md:pt-16" use:reveal>
 	{#if data.events.length === 0}
 		<p class="card p-8 text-center opacity-80">No events yet — check back soon.</p>
 	{/if}
 
 	{#each data.events as event (event.$id)}
 		<article
-			class="event-row grid gap-7 {event.image ? 'md:grid-cols-[15rem_minmax(0,1fr)]' : ''}"
+			class="grid gap-5 event-row {event.image
+				? 'md:grid-cols-[15rem_minmax(0,1fr)] md:gap-7'
+				: ''}"
 			data-reveal
 		>
 			{#if event.image}
-				<img
-					src={event.image}
-					alt=""
-					loading="lazy"
-					class="album-photo h-auto w-full rounded-xl"
-				/>
+				<img src={event.image} alt="" loading="lazy" class="h-auto w-full rounded-xl album-photo" />
 			{/if}
 
 			<div class="min-w-0">
@@ -48,7 +45,7 @@
 					<time class="event-date" datetime={toDate(event.date)}>{formatDate(event.date)}</time>
 				{/if}
 
-				<h2 class="display-face text-title mt-1 leading-tight font-semibold">{event.title}</h2>
+				<h2 class="mt-1 display-face text-title leading-tight font-semibold">{event.title}</h2>
 
 				<div class="mt-4 max-w-[64ch] space-y-3 leading-relaxed text-primary/85">
 					{#each (event.description ?? '').split('\n\n') as para (`${event.$id}-${para.slice(0, 24)}`)}
